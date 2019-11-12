@@ -1,4 +1,5 @@
-# ECEN 5823 Bluetooth Mesh Skeleton Project
+# ECEN 5823 Fall 2019 Course Project
+# Victor Kronberg
 
 This project contains skeleton code used for coursework in University of Colorado [ECEN 5823 IoT Embedded Firmware](https://sites.google.com/colorado.edu/ecen5823/home).
 
@@ -12,3 +13,7 @@ Below is an overview of the sequence used to generate this repository:
 * Relevant emlib project files were copied from SiliconLabs\SimplicityStudio\v4\developer\sdks\gecko_sdk_suite\v2.5\platform as needed and added into the respective directories at the root.
 * The main.c file in the root folder was renamed [gecko_main.c](gecko_main.c).  Contents of the main while loop were moved into functions and the main() function was #ifdef'd out.
 * The [src](src) subfolder was added to contain code specific to the ECEN 5823 course and source files were added to support ECEN 5823 and the simplicity studio exercise assignment.
+
+
+Below is an overview of the project that has been implemented so far:
+* Created skeleton project

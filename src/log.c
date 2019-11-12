@@ -16,8 +16,8 @@
  */
 uint32_t loggerGetTimestamp(void)
 {
-	//return timerGetRunTimeMilliseconds();
-	return 0;
+	return timerGetRunTimeMilliseconds();
+	//return 0;
 }
 
 /**
