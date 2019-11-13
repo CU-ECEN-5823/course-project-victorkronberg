@@ -5,9 +5,9 @@
  *      Author: vkronber
  */
 
-#ifndef SRC_ANALOG_SENSORS_H_
-#define SRC_ANALOG_SENSORS_H_
+#ifndef SRC_LIGHT_SENSOR_H_
+#define SRC_LIGHT_SENSOR_H_
 
 #include "main.h"
 
-#endif /* SRC_ANALOG_SENSORS_H_ */
+#endif /* SRC_LIGHT_SENSOR_H_ */

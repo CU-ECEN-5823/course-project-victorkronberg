@@ -5,4 +5,4 @@
  *      Author: vkronber
  */
 
-
+#include "light_sensor.h"

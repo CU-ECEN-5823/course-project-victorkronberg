@@ -9,5 +9,6 @@
 #define SRC_ADC_H_
 
 #include "main.h"
+#include "em_adc.h"
 
 #endif /* SRC_ADC_H_ */

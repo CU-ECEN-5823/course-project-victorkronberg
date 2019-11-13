@@ -17,6 +17,7 @@
 #include "ble_mesh_device_type.h"
 #include "timer.h"
 #include "adc.h"
+#include "light_sensor.h"
 
 
 #endif /* SRC_MAIN_H_ */
