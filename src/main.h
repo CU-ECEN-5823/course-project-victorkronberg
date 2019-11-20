@@ -13,11 +13,14 @@
 #include "log.h"
 #include "gpio.h"
 #include "gecko_ble_errors.h"
+#include "gecko_main.h"
 #include "display.h"
 #include "ble_mesh_device_type.h"
 #include "timer.h"
 #include "adc.h"
 #include "light_sensor.h"
-
+#include "gecko_mesh.h"
+#include "server.h"
+#include "scheduler.h"
 
 #endif /* SRC_MAIN_H_ */

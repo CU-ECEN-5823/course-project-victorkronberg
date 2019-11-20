@@ -55,6 +55,9 @@ void init_letimer(void)
 	// Disable timer-based interrupts until BLE connection occurs
 	disable_timer_interrupts();
 
+	// Enable underflow timer
+	LETIMER_IntEnable(LETIMER0,LETIMER_IEN_UF);
+
 	return;
 }
 
@@ -188,14 +191,22 @@ void LETIMER0_IRQHandler(void)
 	uint32_t flags = LETIMER_IntGet(LETIMER0);
 	LETIMER_IntClear(LETIMER0, flags);
 
-	LOG_INFO("Timer interrupt thrown with flag %d and state %d",flags,my_state_struct.current_state);
+	//LOG_INFO("Timer interrupt thrown with flag %d and state %d",flags,my_state_struct.current_state);
 
 	// Process interrupts
 	// Check for COMP1 flag - periodic interrupt
 	if(((flags & LETIMER_IF_COMP1) >> _LETIMER_IF_COMP1_SHIFT) == 1 )
 	{
-		// Set mask for 1 HZ event
-		//gecko_external_signal(ONE_HZ_EVENT_MASK);
+		if(periodic_counter > 1 && my_state_struct.current_state == STATE1_MEASURE_LIGHT)
+		{
+			// Set mask for sense event
+			gecko_external_signal(SENSE_EVENT_MASK);
+		}
+		else
+		{
+			// Set mask for 1 HZ event
+			gecko_external_signal(ONE_HZ_EVENT_MASK);
+		}
 	}
 
 

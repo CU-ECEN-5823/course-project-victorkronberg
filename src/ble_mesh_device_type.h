@@ -11,8 +11,8 @@
 #define SRC_BLE_MESH_DEVICE_TYPE_H_
 
 /**
- * Set to 1 to build an on/off publisher client model for Assignment 10
- * Set to 0 to build an on/off subscriber server model for Assignment 10
+ * Set to 1 to build an on/off publisher client model
+ * Set to 0 to build an on/off subscriber server model
  */
 #define DEVICE_IS_ONOFF_PUBLISHER			1
 
@@ -25,7 +25,7 @@
 #define DEVICE_IS_ONOFF_SUBSCRIBER			1
 #endif
 
-#define DEVICE_IS_BLE_MESH_LPN 				0
+#define DEVICE_IS_BLE_MESH_LPN 				1
 #define DEVICE_IS_BLE_MESH_FRIEND 			0
 
 

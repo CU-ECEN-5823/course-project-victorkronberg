@@ -20,6 +20,26 @@ void gpioInit()
 	GPIO_DriveStrengthSet(LED1_port, gpioDriveStrengthWeakAlternateStrong);
 	//GPIO_DriveStrengthSet(LED1_port, gpioDriveStrengthWeakAlternateWeak);
 	GPIO_PinModeSet(LED1_port, LED1_pin, gpioModePushPull, false);
+
+	// Set PD0 and PD1 buttons as input with no filter
+	GPIO_PinModeSet(PD0_BUTTON_PORT, PD0_BUTTON_PIN, gpioModeInputPullFilter, true);
+	GPIO_PinModeSet(PD1_BUTTON_PORT, PD1_BUTTON_PIN, gpioModeInputPullFilter, true);
+
+	// Disable GPIO interrupts prior to configuring pin interrupts
+	//GPIO_IntDisable(PD0_BUTTON_PIN);
+	// Configure input interrupt for PD0 and PD1 buttons on rising/falling edge - enable interrupts
+	GPIO_ExtIntConfig(PD0_BUTTON_PORT,PD0_BUTTON_PIN,PD0_BUTTON_PIN,true,true,true);
+	GPIO_ExtIntConfig(PD1_BUTTON_PORT,PD1_BUTTON_PIN,PD1_BUTTON_PIN,true,true,true);
+
+	GPIOINT_Init();
+
+	GPIOINT_IrqCallbackPtr_t PD0_callback = &GPIO_PF6_IRQHandler;
+	GPIOINT_IrqCallbackPtr_t PD1_callback = &GPIO_PF7_IRQHandler;
+
+
+	GPIOINT_CallbackRegister(PD0_BUTTON_PIN,PD0_callback);
+	GPIOINT_CallbackRegister(PD1_BUTTON_PIN,PD1_callback);
+
 }
 
 void gpioLed0SetOn()
@@ -62,7 +82,7 @@ void gpio_get_button_state(void)
 }
 
 
-void GPIO_EVEN_IRQHandler(void)
+void GPIO_PF6_IRQHandler(uint8_t intno)
 {
 	// Disable interrupt nesting
 	__disable_irq();
@@ -101,7 +121,7 @@ void GPIO_EVEN_IRQHandler(void)
 
 }
 
-void GPIO_ODD_IRQHandler(void)
+void GPIO_PF7_IRQHandler(uint8_t intno)
 {
 	__disable_irq();
 

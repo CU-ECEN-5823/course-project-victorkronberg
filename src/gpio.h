@@ -9,6 +9,7 @@
 #define SRC_GPIO_H_
 #include "main.h"
 #include "em_gpio.h"
+#include "gpiointerrupt.h"
 #include <string.h>
 
 #define DISPLAY_ENABLE_PORT		(gpioPortD)
@@ -81,4 +82,8 @@ void gpioSetDisplayExtcomin(bool high);
  *                Not pressed = 0x00]
  */
 void gpio_get_button_state(void);
+
+void GPIO_PF6_IRQHandler(uint8_t intno);
+
+void GPIO_PF7_IRQHandler(uint8_t intno);
 #endif /* SRC_GPIO_H_ */
