@@ -21,7 +21,7 @@ void my_scheduler(myStateTypeDef *state_struct)
 		state_struct->event_bitmask &= ~ONE_HZ_EVENT_MASK;
 		__enable_irq();
 
-		LOG_INFO("1 HZ Event Handleer");
+		LOG_INFO("1 HZ Event Handler");
 		scheduler_one_hz_event_handler();
 
 	}
@@ -41,40 +41,64 @@ void my_scheduler(myStateTypeDef *state_struct)
 	}
 
 	switch(state_struct->current_state)
-	case STATE1_MEASURE_LIGHT:
-		if( ((state_struct->event_bitmask & ADC_EVENT_MASK) >> ADC_EVENT_POS) == 1 )
-		{
-			__disable_irq();
-			// Clear event bitmask
-			state_struct->event_bitmask &= ~ADC_EVENT_MASK;
+	{
+		case STATE0_WAIT_FOR_TIMER:
+			if( ((state_struct->event_bitmask & SENSE_EVENT_MASK) >> SENSE_EVENT_MASK_POS) == 1 )
+			{
+				__disable_irq();
+				// Clear event bitmask
+				state_struct->event_bitmask &= ~SENSE_EVENT_MASK;
+				state_struct->next_state = STATE1_MEASURE_LIGHT;
+				__enable_irq();
 
-			request_count = 3;
+				ADC_Start(ADC0, adcStartSingle);
 
-			__enable_irq();
+				LOG_INFO("Sense event occurred");
+				scheduler_sensor_event_handler();
+			}
+			break;
+		case STATE1_MEASURE_LIGHT:
+			if( ((state_struct->event_bitmask & ADC_EVENT_MASK) >> ADC_EVENT_POS) == 1 )
+			{
+				__disable_irq();
+				// Clear event bitmask
+				state_struct->event_bitmask &= ~ADC_EVENT_MASK;
+				state_struct->next_state = STATE2_MEASURE_SOIL;
+				__enable_irq();
 
-			LOG_INFO("Measuring light");
+				// Calculate input voltage in mV
+				millivolts = (sample * 5000) / 4096;
 
-		}
-		break;
-	case STATE2_MEASURE_SOIL:
-		if( ((state_struct->event_bitmask & ADC_EVENT_MASK) >> ADC_EVENT_POS) == 1 )
-		{
-			__disable_irq();
-			// Clear event bitmask
-			state_struct->event_bitmask &= ~ADC_EVENT_MASK;
+				ADC_Start(ADC0, adcStartSingle);
 
-			request_count = 3;
+				LOG_INFO("Light Reading: %d",millivolts);
 
-			__enable_irq();
 
-			LOG_INFO("Measuring soil");
+			}
+			break;
+		case STATE2_MEASURE_SOIL:
+			if( ((state_struct->event_bitmask & ADC_EVENT_MASK) >> ADC_EVENT_POS) == 1 )
+			{
+				__disable_irq();
+				// Clear event bitmask
+				state_struct->event_bitmask &= ~ADC_EVENT_MASK;
+				state_struct->next_state = STATE0_WAIT_FOR_TIMER;
 
-		}
-		break;
+				__enable_irq();
+
+				// Calculate input voltage in mV
+				millivolts = (sample * 5000) / 4096;
+
+				LOG_INFO("Soil Reading: %d",millivolts);
+			}
+			break;
+		default:
+			break;
+	}
 
 	if(state_struct->current_state != state_struct->next_state)
 	{
-		//LOG_INFO("State transitioned from state %d to %d",state_struct->current_state,state_struct->next_state);
+		LOG_INFO("State transitioned from state %d to %d",state_struct->current_state,state_struct->next_state);
 		state_struct->current_state = state_struct->next_state;
 	}
 
@@ -84,8 +108,8 @@ void my_scheduler(myStateTypeDef *state_struct)
 void init_scheduler(void)
 {
 	__disable_irq();
-	my_state_struct.current_state = STATE0_WAIT_FOR_BLE;
-	my_state_struct.next_state = STATE0_WAIT_FOR_BLE;
+	my_state_struct.current_state = STATE0_WAIT_FOR_TIMER;
+	my_state_struct.next_state = STATE0_WAIT_FOR_TIMER;
 	my_state_struct.event_bitmask = 0;
 	__enable_irq();
 
@@ -100,11 +124,16 @@ void scheduler_one_hz_event_handler(void)
 	// Update LCD display
 	displayUpdate();
 
-	// Start ADC conversion
-	ADC_Start(ADC0, adcStartSingle);
-
 	// Reset period interrupt
 	reset_periodic_timer();
+}
+
+void scheduler_sensor_event_handler(void)
+{
+	scheduler_one_hz_event_handler();
+
+	// Start ADC conversion
+	ADC_Start(ADC0, adcStartSingle);
 }
 
 void scheduler_confirm_passkey(myStateTypeDef *state_struct)

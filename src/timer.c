@@ -191,16 +191,20 @@ void LETIMER0_IRQHandler(void)
 	uint32_t flags = LETIMER_IntGet(LETIMER0);
 	LETIMER_IntClear(LETIMER0, flags);
 
-	//LOG_INFO("Timer interrupt thrown with flag %d and state %d",flags,my_state_struct.current_state);
+	LOG_INFO("Timer interrupt thrown with flag %d and state %d",flags,my_state_struct.current_state);
+
+	// Increment timer repeat counter to handle sensor events
+	periodic_counter += 1;
 
 	// Process interrupts
 	// Check for COMP1 flag - periodic interrupt
 	if(((flags & LETIMER_IF_COMP1) >> _LETIMER_IF_COMP1_SHIFT) == 1 )
 	{
-		if(periodic_counter > 1 && my_state_struct.current_state == STATE1_MEASURE_LIGHT)
+		if(periodic_counter > 1 && (my_state_struct.current_state == STATE1_MEASURE_LIGHT || my_state_struct.current_state == STATE0_WAIT_FOR_TIMER))
 		{
 			// Set mask for sense event
 			gecko_external_signal(SENSE_EVENT_MASK);
+			periodic_counter = 0;
 		}
 		else
 		{

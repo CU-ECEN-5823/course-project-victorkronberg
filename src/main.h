@@ -23,4 +23,7 @@
 #include "server.h"
 #include "scheduler.h"
 
+volatile uint32_t sample;
+volatile uint32_t millivolts;
+
 #endif /* SRC_MAIN_H_ */

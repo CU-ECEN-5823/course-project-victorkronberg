@@ -28,7 +28,7 @@ void adc_init()
 	initSingle.acqTime    = adcAcqTime4;  // set acquisition time to meet minimum requirement
 
 	// Select ADC input. See README for corresponding EXP header pin.
-	initSingle.posSel = adcPosSelAPORT2XCH7;
+	initSingle.posSel = adcPosSelAPORT2XCH9;
 	init.timebase = ADC_TimebaseCalc(0);
 
 	ADC_Init(ADC0, &init);
@@ -58,24 +58,21 @@ void ADC0_IRQHandler(void)
 	//
 	//
 
-	__disable_IRQ();
+	__disable_irq();
 	// Get ADC result
 	sample = ADC_DataSingleGet(ADC0);
 
 	LOG_INFO("Raw data: %d",sample);
 
-	// Calculate input voltage in mV
-	millivolts = (sample * 5000) / 4096;
 
-	LOG_INFO("Light Reading: %d",millivolts);
 
-	if(my_state_struct.current_state == STATE1_MEASURE_LIGHT)
-	{
+	//if(my_state_struct.current_state == STATE1_MEASURE_LIGHT)
+	//{
 		// Set Gecko event to read next
 		gecko_external_signal(ADC_EVENT_MASK);
-	}
+	//}
 
-	__enable_IRQ();
+	__enable_irq();
 
 
 }

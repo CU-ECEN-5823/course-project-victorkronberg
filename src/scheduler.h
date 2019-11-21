@@ -38,7 +38,7 @@
 #define ADC_EVENT_POS				(8)
 
 typedef enum states  {
-	STATE0_WAIT_FOR_BLE,
+	STATE0_WAIT_FOR_TIMER,
 	STATE1_MEASURE_LIGHT,
 	STATE2_MEASURE_SOIL,
 	STATE3_I2C_WRITE,
@@ -82,6 +82,8 @@ void init_scheduler(void);
  * 							RSSI value and toggles EXTCOMIN on LCD to prevent charge buildup
  */
 void scheduler_one_hz_event_handler(void);
+
+void scheduler_sensor_event_handler(void);
 
 /**
  * [scheduler_confirm_passkey]
