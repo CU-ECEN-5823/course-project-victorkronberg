@@ -117,28 +117,41 @@ void gecko_mesh_send_onoff_request(int retrans)
 void gecko_mesh_init_models(void)
 {
 	elem_index = 0;   // index of primary element is zero. This example has only one element.
-	if(DEVICE_USES_BLE_MESH_CLIENT_MODEL)
+	if(DeviceUsesClientModel())
 	{
 		LOG_INFO("Client init");
 		gecko_cmd_mesh_generic_client_init();
 	}
-	if(DEVICE_USES_BLE_MESH_SERVER_MODEL)
+	if(DeviceUsesServerModel())
 	{
 		LOG_INFO("Server init");
 		gecko_cmd_mesh_generic_server_init();
 	}
-	if(DEVICE_IS_ONOFF_PUBLISHER)
+	if(DeviceIsOnOffPublisher())
 	{
 		LOG_INFO("Publisher init");
 		mesh_lib_init(malloc,free,8);
 		// Publish current button state
 		request_count = 3;
 		gecko_mesh_send_onoff_request(0);
+		// try to initialize lpn after 30 seconds, if no configuration messages come
+		BTSTACK_CHECK_RESPONSE(gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
+												 TIMER_ID_NODE_CONFIGURED,
+												 1));
 	}
-	if(!DEVICE_IS_ONOFF_PUBLISHER)
+	if(DeviceIsOnOffSubscriber())
 	{
 		LOG_INFO("Subscriber init");
 		mesh_lib_init(malloc,free,9);
+
+		//Initialize Friend functionality
+		LOG_INFO("Friend mode initialization\r\n");
+		uint16_t res = gecko_cmd_mesh_friend_init()->result;
+		if (res)
+		{
+			LOG_INFO("Friend init failed 0x%x\r\n", res);
+		}
+
 		server_state_init();
 		mesh_lib_generic_server_register_handler(MESH_GENERIC_ON_OFF_SERVER_MODEL_ID,
 				elem_index,server_on_off_request,server_on_off_change);
