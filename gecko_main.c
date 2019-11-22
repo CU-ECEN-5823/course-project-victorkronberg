@@ -364,8 +364,11 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 				}
 				break;
 	        case TIMER_ID_FRIEND_FIND:
-	        	printf("trying to find friend...\r\n");
-	        	result = gecko_cmd_mesh_lpn_establish_friendship(0)->result;
+	        	if(DeviceUsesClientModel())
+	        	{
+	        		LOG_INFO("trying to find friend...\r\n");
+	        		BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_lpn_establish_friendship(0));
+	        	}
 	        	break;
 	        case TIMER_ID_NODE_CONFIGURED:
 	        	if (!lpn_active && DeviceUsesClientModel())
@@ -388,19 +391,21 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		break;
 
 	case gecko_evt_mesh_lpn_friendship_established_id:
-	  printf("friendship established\r\n");
+	  LOG_INFO("friendship established\r\n");
+	  displayPrintf(DISPLAY_ROW_CONNECTION,"LPN Established");
 	  //DI_Print("LPN with friend", DI_ROW_LPN);
 	  break;
 
 	case gecko_evt_mesh_lpn_friendship_failed_id:
-	  printf("friendship failed\r\n");
+	  LOG_INFO("friendship failed\r\n");
+	  displayPrintf(DISPLAY_ROW_CONNECTION,"No LPN");
 	  //DI_Print("no friend", DI_ROW_LPN);
 	  // try again in 2 seconds
 	  result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(2000),
 												 TIMER_ID_FRIEND_FIND,
 												 1)->result;
 	  if (result) {
-		printf("timer failure?!  %x\r\n", result);
+		LOG_INFO("timer failure?!  %x\r\n", result);
 	  }
 	  break;
 
