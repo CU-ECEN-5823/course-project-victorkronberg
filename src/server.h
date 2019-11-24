@@ -45,6 +45,16 @@ void server_on_off_request(uint16_t model_id,
                           uint16_t delay_ms,
                           uint8_t request_flags);
 
+void server_property_request(uint16_t model_id,
+                          uint16_t element_index,
+                          uint16_t client_addr,
+                          uint16_t server_addr,
+                          uint16_t appkey_index,
+                          const struct mesh_generic_request *request,
+                          uint32_t transition_ms,
+                          uint16_t delay_ms,
+                          uint8_t request_flags);
+
 /***************************************************************************//**
  * This function is a handler for generic on/off change event.
  *
@@ -100,6 +110,8 @@ void server_on_off_state_changed(void);
  * @return 0 if saving succeed, -1 if saving fails.
  ******************************************************************************/
 int32_t server_on_off_state_store(void);
+
+void server_property_state_changed(void);
 
 /***************************************************************************//**
  * This function loads the saved on-off state from Persistent Storage and

@@ -194,6 +194,10 @@ void gecko_main_init()
   // Initialize coexistence interface. Parameters are taken from HAL config.
   gecko_initCoexHAL();
 
+  // Initialize sensor data struct
+  sensor_data.data.lightness = 0;
+  sensor_data.data.soil_moisture = 0;
+
 }
 
 void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)

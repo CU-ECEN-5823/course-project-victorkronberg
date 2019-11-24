@@ -69,6 +69,8 @@ void my_scheduler(myStateTypeDef *state_struct)
 				// Calculate input voltage in mV
 				millivolts = (sample * 5000) / 4096;
 
+				sensor_data.data.lightness = millivolts;
+
 				ADC_Start(ADC0, adcStartSingle);
 
 				LOG_INFO("Light Reading: %d",millivolts);
@@ -89,7 +91,11 @@ void my_scheduler(myStateTypeDef *state_struct)
 				// Calculate input voltage in mV
 				millivolts = (sample * 5000) / 4096;
 
+				sensor_data.data.soil_moisture = millivolts;
+
 				LOG_INFO("Soil Reading: %d",millivolts);
+
+				client_publish_state(0);
 			}
 			break;
 		default:

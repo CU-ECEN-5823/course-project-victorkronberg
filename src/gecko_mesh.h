@@ -54,6 +54,18 @@ uint16_t my_address;
 // LPN status
 uint8_t lpn_active;
 
+typedef union
+{
+	volatile uint8_t buffer[8];
+	struct data
+	{
+		volatile uint32_t soil_moisture;
+		volatile uint32_t lightness;
+	} data;
+} SensorData_t;
+
+SensorData_t sensor_data;
+
 /**
  * [gecko_ble_init_LCD_status]
  * @description: Initializes LCD with BT address and server/client status of device

@@ -21,6 +21,7 @@
 #include "light_sensor.h"
 #include "gecko_mesh.h"
 #include "server.h"
+#include "client.h"
 #include "scheduler.h"
 
 volatile uint32_t sample;
