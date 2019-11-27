@@ -46,7 +46,7 @@ typedef struct {
   uint8_t max_net_keys;
   /** Maximum number of application keys on the device */
   uint8_t max_appkeys;
-  /** Maximum number of device keys on the device; set to 1 for a node */
+  /** Maximum number of device keys on the device. NOTE: this should always be set to 1! */
   uint8_t max_devkeys;
   /** Maximum number of friendships for a friend/LPN device */
   uint8_t max_friendships;

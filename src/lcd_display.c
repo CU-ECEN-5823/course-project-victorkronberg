@@ -9,15 +9,15 @@
  */
 
 //#define INCLUDE_LOG_DEBUG 1
+#include <lcd_display.h>
 #include "graphics.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdarg.h>
 #include <string.h>
-#include "glib.h"
+#include "glib/glib.h"
 #include "gpio.h"
 #include "log.h"
-#include "display.h"
 #include "hardware/kit/common/drivers/display.h"
 //#include "scheduler.h" // Add a reference to your module supporting scheduler events for display update
 #include "timer.h" // Add a reference to your module supporting configuration of underflow events here

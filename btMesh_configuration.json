@@ -5,18 +5,22 @@
     "PID": "0xf0b0",
     "VID": "0x1234",
     "CRPL": "0x0020",
-    "Features": "0x000f",
+    "Features": "0x0003",
     "Elements": [
       {
         "Name": "Primary Element",
         "Loc": "0x0000",
-        "NumS": "2",
+        "NumS": "4",
         "NumV": "0",
         "SIG Models": [
           "0x0000",
           "Configuration Server",
-          "0x1015",
-          "Generic Property Client"]
+          "0x0002",
+          "Health Server",
+          "0x1100",
+          "Sensor Server",
+          "0x1101",
+          "Sensor Setup Server"]
         ,
         "Vendor Models": [
           ]
@@ -25,12 +29,11 @@
   },
   "Memory configuration": {
     "MAX_ELEMENTS": "1",
-    "MAX_MODELS": "2",
+    "MAX_MODELS": "4",
     "MAX_APP_BINDS": "4",
     "MAX_SUBSCRIPTIONS": "4",
     "MAX_NETKEYS": "4",
     "MAX_APPKEYS": "4",
-    "MAX_DEVKEYS": "1",
     "NET_CACHE_SIZE": "16",
     "RPL_SIZE": "32",
     "MAX_SEND_SEGS": "4",

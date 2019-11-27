@@ -28,15 +28,15 @@ extern "C" {
 
 #include "mesh_app_memory_config.h"
 
-#define MESH_MEMSIZE_ELEMENT                        11
-#define MESH_MEMSIZE_MODEL_BASE                     45
+#define MESH_MEMSIZE_ELEMENT                        10
+#define MESH_MEMSIZE_MODEL_BASE                     46
 #define MESH_MEMSIZE_MODEL_PER_APP_BINDING          2
 #define MESH_MEMSIZE_MODEL_PER_SUBSCRIPTION         3
 #define MESH_MEMSIZE_NETKEY                         110
 #define MESH_MEMSIZE_APPKEY                         38
 #define MESH_MEMSIZE_DEVKEY                         37
 #define MESH_MEMSIZE_FRIENDSHIP                     78
-#define MESH_MEMSIZE_FRIEND_QUEUE_ENTRY             40
+#define MESH_MEMSIZE_FRIEND_QUEUE_ENTRY             28
 #define MESH_MEMSIZE_NET_CACHE_ENTRY                8
 #define MESH_MEMSIZE_RPL_ENTRY                      16
 #define MESH_MEMSIZE_SEG_SEND                       72
@@ -45,8 +45,8 @@ extern "C" {
 #define MESH_MEMSIZE_PROV_SESSION                   576
 #define MESH_MEMSIZE_PROV_BEARER                    40
 #define MESH_MEMSIZE_PB_ADV                         21
-#define MESH_MEMSIZE_GATT_CONNECTION                32
-#define MESH_MEMSIZE_GATT_TXQ_ENTRY                 24
+#define MESH_MEMSIZE_GATT_CONNECTION                40
+#define MESH_MEMSIZE_GATT_TXQ_ENTRY                 28
 #define MESH_MEMSIZE_MESH_BEARER                    6
 #define MESH_MEMSIZE_FOUNDATION_CMD                 64
 #define MESH_MEMSIZE_PRV_DDB_ENTRY_BASE             42
@@ -61,7 +61,7 @@ extern "C" {
                       MESH_CFG_MAX_SUBSCRIPTIONS * MESH_MEMSIZE_MODEL_PER_SUBSCRIPTION) + \
   MESH_CFG_MAX_NETKEYS * MESH_MEMSIZE_NETKEY + \
   MESH_CFG_MAX_APPKEYS * MESH_MEMSIZE_APPKEY + \
-  MESH_CFG_MAX_DEVKEYS * MESH_MEMSIZE_DEVKEY + \
+  1 * MESH_MEMSIZE_DEVKEY + \
   MESH_CFG_MAX_FRIENDSHIPS * MESH_MEMSIZE_FRIENDSHIP + \
   MESH_CFG_NET_CACHE_SIZE * MESH_MEMSIZE_NET_CACHE_ENTRY + \
   MESH_CFG_RPL_SIZE * MESH_MEMSIZE_RPL_ENTRY + \
@@ -77,7 +77,8 @@ extern "C" {
                                        MESH_CFG_MAX_PROVISIONED_DEVICE_APPKEYS * MESH_MEMSIZE_PRV_DDB_ENTRY_PER_NODE_APPKEY) + \
   MESH_CFG_FRIEND_MAX_SUBS_LIST * (16) + \
   MESH_CFG_MAX_FOUNDATION_CLIENT_CMDS * MESH_MEMSIZE_FOUNDATION_CMD + \
-  MESH_CFG_FRIEND_MAX_TOTAL_CACHE * MESH_MEMSIZE_FRIEND_QUEUE_ENTRY)
+  MESH_CFG_FRIEND_MAX_TOTAL_CACHE * MESH_MEMSIZE_FRIEND_QUEUE_ENTRY +\
+  MESH_CFG_FRIEND_MAX_TOTAL_CACHE * 191)
 
 #ifdef __cplusplus
 }

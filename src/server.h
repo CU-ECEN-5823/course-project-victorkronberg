@@ -71,6 +71,13 @@ void server_on_off_change(uint16_t model_id,
                          const struct mesh_generic_state *target,
                          uint32_t remaining_ms);
 
+
+void server_property_change(uint16_t model_id,
+                         uint16_t element_index,
+                         const struct mesh_generic_state *current,
+                         const struct mesh_generic_state *target,
+                         uint32_t remaining_ms);
+
 /***************************************************************************//**
  * Update generic on/off state.
  *

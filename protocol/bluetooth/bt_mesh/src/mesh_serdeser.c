@@ -51,10 +51,10 @@ static void uint16_to_buf(uint8_t *ptr, uint16_t n)
 static int32_t int32_from_buf(const uint8_t *ptr)
 {
   return
-    ((int16_t)ptr[0])
-    | ((int16_t)ptr[1] << 8)
-    | ((int16_t)ptr[2] << 16)
-    | ((int16_t)ptr[3] << 24)
+    ((int32_t)ptr[0])
+    | ((int32_t)ptr[1] << 8)
+    | ((int32_t)ptr[2] << 16)
+    | ((int32_t)ptr[3] << 24)
   ;
 }
 
@@ -317,7 +317,7 @@ int mesh_lib_deserialize_request(struct mesh_generic_request *req,
         return -1;
       }
       req->kind = kind;
-      req->level = int32_from_buf(&msg_buf[msg_off]);
+      req->delta = int32_from_buf(&msg_buf[msg_off]);
       break;
 
     case mesh_generic_request_location_global:
@@ -846,6 +846,7 @@ int mesh_lib_deserialize_state(struct mesh_generic_state *current,
       if (msg_len - msg_off != 8) {
         return -1;
       }
+      current->kind = kind;
       current->battery.level = msg_buf[msg_off++];
       memcpy(current->battery.discharge_time, msg_buf + msg_off, 3);
       msg_off += 3;

@@ -2,6 +2,7 @@
 #define DISPLAYHALCONFIG_H
 
 #include "hal-config.h"
+#include "hal-config-board.h"
 
 // -----------------------------------------------------------------------------
 // Peripheral/pin configuration

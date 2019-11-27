@@ -153,8 +153,12 @@ void gecko_mesh_init_models(void)
 		}
 
 		server_state_init();
-		mesh_lib_generic_server_register_handler(MESH_GENERIC_ON_OFF_SERVER_MODEL_ID,
-				elem_index,server_on_off_request,server_on_off_change);
+
+		mesh_lib_generic_server_register_handler(MESH_GENERIC_PROPERTY_CLIENT_MODEL_ID,
+												elem_index,
+												server_property_request,
+												server_property_change);
+
 		server_on_off_update_and_publish(elem_index,0);
 	}
 	displayPrintf(DISPLAY_ROW_ACTION,"Provisioned");
@@ -181,7 +185,7 @@ void gecko_mesh_lpn_init(void)
     return;
   }
   lpn_active = LPN_ACTIVE;
-  printf("LPN initialized\r\n");
+  LOG_INFO("LPN initialized\r\n");
   //DI_Print("LPN on", DI_ROW_LPN);
 
   // Configure the lpn with following parameters:
@@ -189,7 +193,7 @@ void gecko_mesh_lpn_init(void)
   // - Poll timeout = 5 seconds
   result = gecko_cmd_mesh_lpn_configure(2, 5 * 1000)->result;
   if (result) {
-    printf("LPN conf failed (0x%x)\r\n", result);
+    LOG_INFO("LPN conf failed (0x%x)\r\n", result);
     return;
   }
 
@@ -197,7 +201,7 @@ void gecko_mesh_lpn_init(void)
   result = gecko_cmd_mesh_lpn_establish_friendship(0)->result;
 
   if (result != 0) {
-    printf("ret.code %x\r\n", result);
+    LOG_INFO("ret.code %x\r\n", result);
   }
 }
 

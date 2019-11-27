@@ -15,13 +15,14 @@
  *
  ******************************************************************************/
 
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 
 #include "display.h"
-#include "dmd.h"
+#include "dmd/dmd.h"
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 

@@ -57,7 +57,10 @@ void server_property_request(uint16_t model_id,
 
 	LOG_INFO("State changing to <%s>\r\n", request->on_off ? "ON" : "OFF");
 
-	sensor_data.buffer = request->property.buffer;
+	for (uint32_t i = 0; i < request->property.length ; i++)
+	{
+		sensor_data.buffer[i] = *(request->property.buffer + i);
+	}
 
 	server_property_state_changed();
 
@@ -97,9 +100,12 @@ void server_property_change(uint16_t model_id,
                          uint32_t remaining_ms)
 {
 
-    LOG_INFO("Propertu state changed %u to %u\r\n", on_off_state.on_off_current, current->on_off.on);
+    LOG_INFO("Property state changed %u to %u\r\n", on_off_state.on_off_current, current->on_off.on);
 
-    sensor_data.buffer = current->property.buffer;
+    for (uint32_t i = 0; i < current->property.length ; i++)
+	{
+		sensor_data.buffer[i] = *(current->property.buffer + i);
+	}
 
 	server_property_state_changed();
 

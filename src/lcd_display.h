@@ -27,12 +27,12 @@
  * scheduler.
  */
 
-#ifndef SRC_DISPLAY_H_
-#define SRC_DISPLAY_H_
+#ifndef SRC_LCD_DISPLAY_H_
+#define SRC_LCD_DISPLAY_H_
 
 #define ECEN5823_INCLUDE_DISPLAY_SUPPORT 1
 
-#include "glib.h"
+#include "glib/glib.h"
 #include "main.h"
 
 /**
@@ -63,4 +63,4 @@ static inline void displayPrintf(enum display_row row, const char *format, ... )
 
 
 
-#endif /* SRC_DISPLAY_H_ */
+#endif /* SRC_LCD_DISPLAY_H_ */

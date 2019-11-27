@@ -56,15 +56,6 @@
 #define EMDRV_DMADRV_DMA_CH_COUNT DMA_CHAN_COUNT
 #endif
 
-/// DMADRV native API configuration option.
-/// Use the native emlib api of the DMA controller, but still use DMADRV
-/// housekeeping functions as AllocateChannel/FreeChannel etc.
-#if defined(DOXY_DOC_ONLY)
-#define EMDRV_DMADRV_USE_NATIVE_API
-#else
-//#define EMDRV_DMADRV_USE_NATIVE_API
-#endif
-
 /** @} (end addtogroup DMADRV) */
 /** @} (end addtogroup emdrv) */
 
