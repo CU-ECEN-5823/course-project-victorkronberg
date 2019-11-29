@@ -305,6 +305,18 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		}
 		break;
 
+	case gecko_evt_mesh_sensor_server_get_request_id:
+	case gecko_evt_mesh_sensor_server_get_column_request_id:
+	case gecko_evt_mesh_sensor_server_get_series_request_id:
+	case gecko_evt_mesh_sensor_server_publish_id:
+	case gecko_evt_mesh_sensor_setup_server_get_cadence_request_id:
+	case gecko_evt_mesh_sensor_setup_server_set_cadence_request_id:
+	case gecko_evt_mesh_sensor_setup_server_get_settings_request_id:
+	case gecko_evt_mesh_sensor_setup_server_get_setting_request_id:
+	case gecko_evt_mesh_sensor_setup_server_set_setting_request_id:
+	  handle_sensor_server_events(evt);
+	  break;
+
 	case gecko_evt_mesh_generic_server_state_changed_id:
 		if(!DEVICE_IS_ONOFF_PUBLISHER)
 		{

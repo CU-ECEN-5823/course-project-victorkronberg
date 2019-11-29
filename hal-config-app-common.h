@@ -25,22 +25,6 @@
 #include "hal-config-ioexp.h"
 #endif
 
-#if defined(FEATURE_FEM)
-#include "hal-config-fem.h"
-#endif
-
-#define HAL_EXTFLASH_FREQUENCY                        (1000000)
-
-#define HAL_PA_ENABLE                                 (1)
-
-#define HAL_PTI_ENABLE                                (1)
-#define HAL_PTI_MODE                                  (HAL_PTI_MODE_UART)
-#define HAL_PTI_BAUD_RATE                             (1600000)
-
-#ifdef BSP_CLK_LFXO_CTUNE
-#undef BSP_CLK_LFXO_CTUNE
-#endif
-#define BSP_CLK_LFXO_CTUNE                            (32)
 
 #if (HAL_PA_ENABLE)
 #define HAL_PA_RAMP                                   (10)
@@ -55,4 +39,15 @@
 #define HAL_PA_VOLTAGE                                (1800)
 #endif // FEATURE_PA_HIGH_POWER
 
+#define HAL_VCOM_ENABLE                   (0)
+#define HAL_I2CSENSOR_ENABLE              (0)
+#define HAL_SPIDISPLAY_ENABLE             (0)
+
+
+
+// Select antenna path on EFR32xG2x devices:
+//   - RF2G2_IO1: 0
+//   - RF2G2_IO2: 1
+#define GECKO_RF_ANTENNA   1
+                          
 #endif /* HAL_CONFIG_APP_COMMON_H */

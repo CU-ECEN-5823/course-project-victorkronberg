@@ -24,33 +24,10 @@
 #endif
 
 #include "bsp.h"
-#include "i2cspm.h"
-#include "pti.h"
 
 void initApp(void)
 {
-  // Enable PTI
-  configEnablePti();
-
-#if (HAL_I2CSENSOR_ENABLE)
-  // Initialize I2C peripheral
-  I2CSPM_Init_TypeDef i2cInit = I2CSPM_INIT_DEFAULT;
-  I2CSPM_Init(&i2cInit);
-#endif // HAL_I2CSENSOR_ENABLE
 
 
-#if defined(HAL_VCOM_ENABLE)
-  // Enable VCOM if requested
-  GPIO_PinModeSet(BSP_VCOM_ENABLE_PORT, BSP_VCOM_ENABLE_PIN, gpioModePushPull, HAL_VCOM_ENABLE);
-#endif // HAL_VCOM_ENABLE
 
-#if defined(HAL_I2CSENSOR_ENABLE) || defined(HAL_SPIDISPLAY_ENABLE)
-#if HAL_I2CSENSOR_ENABLE || HAL_SPIDISPLAY_ENABLE
-#define DISPLAY_SENSOR_COMMON_ENABLE 1
-#else
-#define DISPLAY_SENSOR_COMMON_ENABLE 0
-#endif
-  //Enable I2C sensor and display if requested
-  GPIO_PinModeSet(BSP_I2CSENSOR_ENABLE_PORT, BSP_I2CSENSOR_ENABLE_PIN, gpioModePushPull, DISPLAY_SENSOR_COMMON_ENABLE);
-#endif
 }

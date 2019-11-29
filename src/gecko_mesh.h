@@ -56,10 +56,11 @@ uint8_t lpn_active;
 
 typedef union
 {
-	volatile uint8_t buffer[8];
+	volatile uint8_t buffer[12];
 	struct data
 	{
 		volatile uint32_t soil_moisture;
+		volatile uint32_t temperature;
 		volatile uint32_t lightness;
 	} data;
 } SensorData_t;

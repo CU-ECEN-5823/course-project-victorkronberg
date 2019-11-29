@@ -19,11 +19,13 @@
 #include "timer.h"
 #include "adc.h"
 #include "light_sensor.h"
+#include "soil_sensor.h"
 #include "gecko_mesh.h"
 #include "server.h"
 #include "client.h"
 #include "lcd_display.h"
 #include "scheduler.h"
+#include "sensor.h"
 
 volatile uint32_t sample;
 volatile uint32_t millivolts;
