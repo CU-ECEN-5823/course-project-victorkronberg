@@ -191,11 +191,9 @@ void gecko_mesh_lpn_init(void)
   // Configure the lpn with following parameters:
   // - Minimum friend queue length = 2
   // - Poll timeout = 5 seconds
-  result = gecko_cmd_mesh_lpn_configure(2, 5 * 1000)->result;
-  if (result) {
-    LOG_INFO("LPN conf failed (0x%x)\r\n", result);
-    return;
-  }
+  BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_lpn_config(mesh_lpn_queue_length,2));
+  BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_lpn_config(mesh_lpn_poll_timeout,5 * 1000));
+
 
   printf("trying to find friend...\r\n");
   result = gecko_cmd_mesh_lpn_establish_friendship(0)->result;
