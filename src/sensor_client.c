@@ -136,19 +136,19 @@ void handle_sensor_client_status(
           if (property_id == properties[current_property]) {
             char tmp[21];
             switch (property_id) {
-              case PEOPLE_COUNT:
+              case PRESENT_INPUT_VOLTAGE:
                 if (property_len == 2) {
-                  mesh_device_property_t property = mesh_sensor_data_from_buf(PEOPLE_COUNT, property_data);
-                  count16_t people_count = property.count16;
-                  if (people_count == (count16_t)0xFFFF) {
-                    snprintf(tmp, 21, "Adr %4x Count   N/K", address_table[sensor]);
+                  mesh_device_property_t property = mesh_sensor_data_from_buf(PRESENT_INPUT_VOLTAGE, property_data);
+                  count16_t voltage = property.voltage;
+                  if (voltage == (voltage_t)0xFFFF) {
+                    snprintf(tmp, 21, "Adr %4x V   N/K", address_table[sensor]);
                   } else {
-                    snprintf(tmp, 21, "Adr %4x Count %5u", address_table[sensor], people_count);
+                    snprintf(tmp, 21, "Adr %4x V %5u", address_table[sensor], voltage);
                   }
                 } else {
-                  snprintf(tmp, 21, "Adr %4x Count   N/A", address_table[sensor]);
+                  snprintf(tmp, 21, "Adr %4x V   N/A", address_table[sensor]);
                 }
-                //DI_Print(tmp, DI_ROW_SENSOR_DATA + sensor);
+                displayPrintf(DISPLAY_ROW_SOIL,tmp);
                 break;
 
               case PRESENT_AMBIENT_TEMPERATURE:
@@ -169,7 +169,7 @@ void handle_sensor_client_status(
 				{
 				  snprintf(tmp, 21, "Adr %4x Temp    N/A", address_table[sensor]);
 				}
-				//DI_Print(tmp, DI_ROW_SENSOR_DATA + sensor);
+				displayPrintf(DISPLAY_ROW_TEMPVALUE,tmp);
 				break;
               case PRESENT_AMBIENT_LIGHT_LEVEL:
 				if (property_len == 1)
@@ -190,7 +190,7 @@ void handle_sensor_client_status(
 				{
 				snprintf(tmp, 21, "Adr %4x Temp    N/A", address_table[sensor]);
 				}
-				//DI_Print(tmp, DI_ROW_SENSOR_DATA + sensor);
+				displayPrintf(DISPLAY_ROW_LIGHTNESS,tmp);
 				break;
 
               default:

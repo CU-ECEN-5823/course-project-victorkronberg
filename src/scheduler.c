@@ -177,10 +177,4 @@ void client_scheduler(myStateTypeDef *state_struct)
 
 	}
 
-	// Check for BLE passkey confirmation event
-	if( ((state_struct->event_bitmask & PASSKEY_CONFIRM_MASK) >> PASSKEY_CONFIRM_POS) == 1 )
-	{
-		scheduler_confirm_passkey(state_struct);
-	}
-
 }
