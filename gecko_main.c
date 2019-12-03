@@ -115,26 +115,14 @@ void gecko_bgapi_classes_init_friend(void)
 	gecko_bgapi_class_system_init();
 	gecko_bgapi_class_le_gap_init();
 	gecko_bgapi_class_le_connection_init();
-	//gecko_bgapi_class_gatt_init();
 	gecko_bgapi_class_gatt_server_init();
 	gecko_bgapi_class_hardware_init();
 	gecko_bgapi_class_flash_init();
 	gecko_bgapi_class_test_init();
-	//gecko_bgapi_class_sm_init();
-	//mesh_native_bgapi_init();
 	gecko_bgapi_class_mesh_node_init();
-	//gecko_bgapi_class_mesh_prov_init();
 	gecko_bgapi_class_mesh_proxy_init();
 	gecko_bgapi_class_mesh_proxy_server_init();
-	//gecko_bgapi_class_mesh_proxy_client_init();
-	//gecko_bgapi_class_mesh_generic_client_init();
-	gecko_bgapi_class_mesh_generic_server_init();
 	gecko_bgapi_class_mesh_sensor_client_init();
-	//gecko_bgapi_class_mesh_vendor_model_init();
-	//gecko_bgapi_class_mesh_health_client_init();
-	//gecko_bgapi_class_mesh_health_server_init();
-	//gecko_bgapi_class_mesh_test_init();
-	//gecko_bgapi_class_mesh_lpn_init();
 	gecko_bgapi_class_mesh_friend_init();
 }
 
@@ -179,10 +167,14 @@ void gecko_main_init()
 
   gecko_stack_init(&config);
 
-  if( IsMeshLPN() ) {
+  if(DEVICE_IS_SENSOR_SERVER)
+  {
 	  gecko_bgapi_classes_init_lpn();
-  } else {
+  }
+  else
+  {
 	  gecko_bgapi_classes_init_friend();
+	  LOG_INFO("Friend init");
   }
 
   // Initialize coexistence interface. Parameters are taken from HAL config.
@@ -332,6 +324,11 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	  handle_sensor_server_events(evt);
 	  break;
 
+	case gecko_evt_mesh_sensor_client_descriptor_status_id:
+	case gecko_evt_mesh_sensor_client_status_id:
+	  handle_sensor_client_events(evt);
+	  break;
+
 	case gecko_evt_mesh_generic_server_state_changed_id:
 		//if(!DEVICE_IS_ONOFF_PUBLISHER)
 		//{
@@ -413,7 +410,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	        	else if (IsMeshFriend())
 	        	{
 	        		LOG_INFO("try to initialize friend...\r\n");
-	        		gecko_cmd_mesh_friend_init();
+	        		BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_friend_init());
 	        	}
 				break;
 
@@ -444,8 +441,8 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	  break;
 
 	case gecko_evt_mesh_lpn_friendship_terminated_id:
-	  printf("friendship terminated\r\n");
-	  //DI_Print("friend lost", DI_ROW_LPN);
+	  LOG_INFO("friendship terminated\r\n");
+	  displayPrintf(DISPLAY_ROW_CONNECTION,"Friend lost");
 	  //if (num_connections == 0) {
 		// try again in 2 seconds
 		result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(2000),
@@ -455,6 +452,16 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		  printf("timer failure?!  %x\r\n", result);
 		}
 	  //}
+	  break;
+
+	case gecko_evt_mesh_friend_friendship_established_id:
+	  LOG_INFO("evt gecko_evt_mesh_friend_friendship_established, lpn_address=%x\r\n", evt->data.evt_mesh_friend_friendship_established.lpn_address);
+	  displayPrintf(DISPLAY_ROW_CONNECTION,"Friend");
+	  break;
+
+	case gecko_evt_mesh_friend_friendship_terminated_id:
+	  LOG_INFO("evt gecko_evt_mesh_friend_friendship_terminated, reason=%x\r\n", evt->data.evt_mesh_friend_friendship_terminated.reason);
+	  displayPrintf(DISPLAY_ROW_CONNECTION,"No LPN");
 	  break;
 
 	case gecko_evt_system_external_signal_id:

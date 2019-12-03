@@ -60,6 +60,17 @@ void sensor_node_init(void);
  ******************************************************************************/
 void handle_sensor_server_events(struct gecko_cmd_packet *pEvt);
 
+/***************************************************************************//**
+ * Handling of sensor server publish event.
+ * It is used to signal the elapse of the publish period, when the server app
+ * shall publish the sensor states
+ *
+ * @param[in] pEvt  Pointer to sensor server publish request event
+ ******************************************************************************/
+void handle_sensor_server_publish_event(struct gecko_msg_mesh_sensor_server_publish_evt_t *pEvt);
+
+void sensor_server_publish(void);
+
 /** @} (end addtogroup Sensor) */
 
 #endif /* SENSOR_H */

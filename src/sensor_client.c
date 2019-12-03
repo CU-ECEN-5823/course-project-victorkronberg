@@ -119,7 +119,7 @@ void sensor_client_publish_get_request(void)
 void handle_sensor_client_status(
   struct gecko_msg_mesh_sensor_client_status_evt_t *pEvt)
 {
-  printf("evt:gecko_evt_mesh_sensor_client_status_id\r\n");
+  LOG_INFO("evt:gecko_evt_mesh_sensor_client_status_id\r\n");
   uint8_t *sensor_data = pEvt->sensor_data.data;
   uint8_t data_len = pEvt->sensor_data.len;
   uint8_t pos = 0;
@@ -172,12 +172,12 @@ void handle_sensor_client_status(
 				displayPrintf(DISPLAY_ROW_TEMPVALUE,tmp);
 				break;
               case PRESENT_AMBIENT_LIGHT_LEVEL:
-				if (property_len == 1)
+				if (property_len == 3)
 				{
 					mesh_device_property_t property = mesh_sensor_data_from_buf(PRESENT_AMBIENT_LIGHT_LEVEL, property_data);
 					illuminance_t illuminance = property.illuminance;
 
-					if (illuminance == (illuminance_t)0xFF)
+					if (illuminance == (illuminance_t)0xFFFFFF)
 					{
 					  snprintf(tmp, 21, "Adr %4x Temp    N/K", address_table[sensor]);
 					}

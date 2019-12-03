@@ -103,7 +103,7 @@ src/sensor.o: ../src/sensor.c ../src/sensor.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\middleware\glib/glib/glib_color.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\middleware\glib/dmd/dmd.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\middleware\glib/em_types.h \
- ../src/scheduler.h
+ ../src/scheduler.h ../src/sensor_client.h
 
 ../src/sensor.h:
 
@@ -328,3 +328,5 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\middleware\glib/em_types.h:
 
 ../src/scheduler.h:
+
+../src/sensor_client.h:

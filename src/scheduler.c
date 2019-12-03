@@ -95,7 +95,7 @@ void my_scheduler(myStateTypeDef *state_struct)
 
 				//LOG_INFO("Soil Reading: %d",millivolts);
 
-				handle_sensor_server_publish_event();
+				sensor_server_publish();
 			}
 			break;
 		default:

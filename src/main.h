@@ -26,6 +26,7 @@
 #include "lcd_display.h"
 #include "scheduler.h"
 #include "sensor.h"
+#include "sensor_client.h"
 
 volatile uint32_t sample;
 volatile uint32_t millivolts;

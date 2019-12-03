@@ -32,16 +32,25 @@ int main(void)
 
 	if(my_state_struct.event_bitmask!=0)
 	{
-		my_scheduler(&my_state_struct);
+		if( IsMeshLPN() )
+		{
+			my_scheduler(&my_state_struct);
+		}
+		else if ( IsMeshFriend() )
+		{
+			client_scheduler(&my_state_struct);
+		}
+
 	}
 	else
 	{
 		// If there are no events pending then the next call to gecko_wait_event()
 		// may cause device go to deep sleep.
 		// Make sure that debug prints are flushed before going to sleep
-		if (!gecko_event_pending()) {
-		  RETARGET_SerialFlush();
-		}
+		//if (!gecko_event_pending()) {
+		//  RETARGET_SerialFlush();
+		//}
+
 		evt = gecko_wait_event();
 		bool pass = mesh_bgapi_listener(evt);
 		if (pass)

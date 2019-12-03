@@ -193,13 +193,13 @@ void LETIMER0_IRQHandler(void)
 
 	//LOG_INFO("Timer interrupt thrown with flag %d and state %d",flags,my_state_struct.current_state);
 
-	// Increment timer repeat counter to handle sensor events
-	periodic_counter += 1;
-
 	// Process interrupts
 	// Check for COMP1 flag - periodic interrupt
-	if(((flags & LETIMER_IF_COMP1) >> _LETIMER_IF_COMP1_SHIFT) == 1 )
+	if( IsMeshLPN() && (((flags & LETIMER_IF_COMP1) >> _LETIMER_IF_COMP1_SHIFT) == 1 ))
 	{
+		// Increment timer repeat counter to handle sensor events
+		periodic_counter += 1;
+
 		if(periodic_counter > 1 && (my_state_struct.current_state == STATE1_MEASURE_LIGHT || my_state_struct.current_state == STATE0_WAIT_FOR_TIMER))
 		{
 			// Set mask for sense event
@@ -211,6 +211,11 @@ void LETIMER0_IRQHandler(void)
 			// Set mask for 1 HZ event
 			gecko_external_signal(ONE_HZ_EVENT_MASK);
 		}
+	}
+	else if( IsMeshFriend() && (((flags & LETIMER_IF_COMP1) >> _LETIMER_IF_COMP1_SHIFT) == 1 ))
+	{
+		// Set mask for 1 HZ event
+		gecko_external_signal(ONE_HZ_EVENT_MASK);
 	}
 
 

@@ -104,6 +104,7 @@ src/lcd_display.o: ../src/lcd_display.c ../src/lcd_display.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_device_properties.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h \
+ ../src/sensor_client.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/display.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/emstatus.h \
@@ -336,6 +337,8 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_device_properties.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h:
+
+../src/sensor_client.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h:
 

@@ -102,6 +102,7 @@ src/gpio.o: ../src/gpio.c ../src/gpio.h ../src/main.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_device_properties.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h \
+ ../src/sensor_client.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emdrv\gpiointerrupt\inc/gpiointerrupt.h
 
 ../src/gpio.h:
@@ -325,5 +326,7 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_device_properties.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h:
+
+../src/sensor_client.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emdrv\gpiointerrupt\inc/gpiointerrupt.h:

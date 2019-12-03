@@ -214,6 +214,50 @@ void handle_sensor_server_publish_event(
 }
 
 /***************************************************************************//**
+ * Handling of sensor server publish event.
+ * It is used to signal the elapse of the publish period, when the server app
+ * shall publish the sensor states
+ *
+ * @param[in] pEvt  Pointer to sensor server publish request event
+ ******************************************************************************/
+void sensor_server_publish(void)
+{
+  LOG_INFO("evt:gecko_evt_mesh_sensor_server_publish_id\r\n");
+  uint8_t sensor_data[32];
+  uint8_t len = 0;
+
+  illuminance_t ambient_light = light_sensor_get_illuminance();
+  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_LIGHT_LEVEL,
+                                 &sensor_data[len],
+                                 (uint8_t*)&ambient_light);
+
+  displayPrintf(DISPLAY_ROW_LIGHTNESS,"Illuminance: %d",(uint32_t)ambient_light);
+
+  temperature_8_t temperature;// = get_temperature();
+  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
+                                 &sensor_data[len],
+                                 (uint8_t*)&temperature);
+
+  displayPrintf(DISPLAY_ROW_TEMPVALUE,"Temp: %d C",temperature);
+
+  present_input_voltage_t soil_voltage = soil_sensor_get_voltage();
+  len += mesh_sensor_data_to_buf(PRESENT_INPUT_VOLTAGE,
+                                 &sensor_data[len],
+                                 (uint8_t*)&soil_voltage);
+
+  displayPrintf(DISPLAY_ROW_SOIL,"Soil Moisture: %d",(uint16_t)soil_voltage);
+
+
+  if (len > 0) {
+    gecko_cmd_mesh_sensor_server_send_status(SENSOR_ELEMENT,
+                                             PUBLISH_ADDRESS,
+                                             IGNORED,
+                                             NO_FLAGS,
+                                             len, sensor_data);
+  }
+}
+
+/***************************************************************************//**
  * Handling of sensor setup server get cadence request event.
  * Cadence is not supported now, so reply has only Property ID
  * according to specification.
