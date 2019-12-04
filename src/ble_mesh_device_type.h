@@ -14,7 +14,7 @@
  * Set to 1 to build an on/off publisher client model
  * Set to 0 to build an on/off subscriber server model
  */
-#define DEVICE_IS_SENSOR_SERVER				0
+#define DEVICE_IS_SENSOR_SERVER				1
 
 #if DEVICE_IS_SENSOR_SERVER
 #define DEVICE_USES_BLE_MESH_CLIENT_MODEL 	0

@@ -174,16 +174,24 @@ void gecko_main_init()
   else
   {
 	  gecko_bgapi_classes_init_friend();
-	  LOG_INFO("Friend init");
   }
 
   // Initialize coexistence interface. Parameters are taken from HAL config.
   gecko_initCoexHAL();
 
+  __disable_irq();
   // Initialize sensor data struct
   sensor_data.data.lightness = 0;
   sensor_data.data.soil_moisture = 0;
   sensor_data.data.temperature = 0;
+
+  // Initialize friend address global if LPN node
+  if(IsMeshLPN())
+  {
+	  friend_address = 0;
+  }
+
+  __enable_irq();
 
 }
 
@@ -224,7 +232,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 {
   uint16_t result;
 
-  //LOG_INFO("Event %08x",evt_id);
+  //LOG_INFO("evt: %8.8x class %2.2x method %2.2x\r\n", evt_id, (evt_id >> 16) & 0xFF, (evt_id >> 24) & 0xFF);
 
   switch (evt_id) {
 
@@ -290,6 +298,12 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		displayPrintf(DISPLAY_ROW_CONNECTION,"Connected");
 		connection_state = CONNECTED;
 		conn_handle = evt->data.evt_le_connection_opened.connection;
+
+		if( IsMeshLPN() )
+		{
+			gecko_mesh_lpn_deinit();
+		}
+
 		break;
 
 	case gecko_evt_mesh_node_key_added_id:
@@ -326,6 +340,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 
 	case gecko_evt_mesh_sensor_client_descriptor_status_id:
 	case gecko_evt_mesh_sensor_client_status_id:
+	case gecko_evt_mesh_sensor_client_publish_id:
 	  handle_sensor_client_events(evt);
 	  break;
 
@@ -351,6 +366,13 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 			/* Enter to DFU OTA mode */
 			gecko_cmd_system_reset(2);
 		}
+
+		if( IsMeshLPN())
+		{
+			// initialize lpn when there is no active connection
+			gecko_mesh_lpn_init();
+		}
+
 		break;
 
 	case gecko_evt_gatt_server_user_write_request_id:
@@ -424,6 +446,9 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	case gecko_evt_mesh_lpn_friendship_established_id:
 	  LOG_INFO("friendship established\r\n");
 	  displayPrintf(DISPLAY_ROW_CONNECTION,"LPN Established");
+	  __disable_irq();
+	  friend_address = evt->data.evt_mesh_lpn_friendship_established.friend_address;
+	  __enable_irq();
 	  //DI_Print("LPN with friend", DI_ROW_LPN);
 	  break;
 
@@ -464,6 +489,10 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	  displayPrintf(DISPLAY_ROW_CONNECTION,"No LPN");
 	  break;
 
+	case gecko_evt_le_gap_adv_timeout_id:
+	  // these events silently discarded
+	  break;
+
 	case gecko_evt_system_external_signal_id:
 		switch (evt->data.evt_system_external_signal.extsignals)
 		{
@@ -490,6 +519,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		}
 		break;
 	default:
+		LOG_INFO("Unhandled evt: %8.8x class %2.2x method %2.2x\r\n", evt_id, (evt_id >> 16) & 0xFF, (evt_id >> 24) & 0xFF);
 		break;
   }
 }

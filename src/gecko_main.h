@@ -45,6 +45,8 @@
 #define PB_ADV   0x1 ///< Advertising Provisioning Bearer
 #define PB_GATT  0x2 ///< GATT Provisioning Bearer
 
+uint16_t friend_address;
+
 void gecko_bgapi_classes_init_friend(void);
 void gecko_bgapi_classes_init_lpn(void);
 void gecko_main_init(void);

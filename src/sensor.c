@@ -206,7 +206,7 @@ void handle_sensor_server_publish_event(
 
   if (len > 0) {
     gecko_cmd_mesh_sensor_server_send_status(SENSOR_ELEMENT,
-                                             PUBLISH_ADDRESS,
+    										 PUBLISH_ADDRESS,
                                              IGNORED,
                                              NO_FLAGS,
                                              len, sensor_data);

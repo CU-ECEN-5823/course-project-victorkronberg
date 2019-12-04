@@ -227,6 +227,10 @@ void handle_sensor_client_events(struct gecko_cmd_packet *pEvt)
         &(pEvt->data.evt_mesh_sensor_client_status));
       break;
 
+    case gecko_evt_mesh_sensor_client_publish_id:
+	  LOG_INFO("evt:gecko_evt_mesh_sensor_client_status_id\r\n");
+	  break;
+
     default:
       break;
   }
