@@ -14,11 +14,11 @@ void gecko_mesh_init_LCD_status(struct gecko_msg_system_get_bt_address_rsp_t *bt
 
 	if(DeviceIsOnOffPublisher())
 	{
-	  displayPrintf(DISPLAY_ROW_NAME,"Publisher");
+	  displayPrintf(DISPLAY_ROW_NAME,"Sensor Server: LPN");
 	}
 	else
 	{
-	  displayPrintf(DISPLAY_ROW_NAME,"Subscriber");
+	  displayPrintf(DISPLAY_ROW_NAME,"Sensor Client: Friend");
 	}
 
 	displayPrintf(DISPLAY_ROW_BTADDR,"%02x:%02x:%02x:%02x:%02x:%02x",bt_address->address.addr[5],
@@ -54,11 +54,11 @@ void gecko_mesh_set_device_name(void)
 
 	if(IsMeshLPN())
 	{
-		sprintf(device_name,"5823LPN %02x%02x",bt_address->address.addr[1],bt_address->address.addr[0]);
+		sprintf(device_name,"lpn %02x%02x",bt_address->address.addr[1],bt_address->address.addr[0]);
 	}
 	else
 	{
-		sprintf(device_name,"5823Friend %02x%02x",bt_address->address.addr[1],bt_address->address.addr[0]);
+		sprintf(device_name,"friend %02x%02x",bt_address->address.addr[1],bt_address->address.addr[0]);
 	}
 
 	gecko_mesh_init_LCD_status(bt_address);
@@ -121,6 +121,9 @@ void gecko_mesh_init_models(void)
 	{
 		LOG_INFO("Sensor client init");
 		gecko_cmd_mesh_sensor_client_init();
+	    //gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(2000),
+	                                      //TIMER_ID_SENSOR_DESCRIPTOR,
+	                                      //1);
 	}
 	if(DeviceUsesServerModel())
 	{
@@ -131,9 +134,6 @@ void gecko_mesh_init_models(void)
 	{
 		LOG_INFO("LPN init");
 		mesh_lib_init(malloc,free,8);
-		// Publish current button state
-		//request_count = 3;
-		//gecko_mesh_send_onoff_request(0);
 		// try to initialize lpn after 30 seconds, if no configuration messages come
 		BTSTACK_CHECK_RESPONSE(gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
 												 TIMER_ID_NODE_CONFIGURED,

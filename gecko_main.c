@@ -91,6 +91,7 @@ const gecko_configuration_t config =
   .bluetooth.linklayer_priorities = &linklayer_priorities,
   .gattdb = &bg_gattdb_data,
   .btmesh_heap_size = BTMESH_HEAP_SIZE,
+  .sleep.flags = SLEEP_FLAGS_DEEP_SLEEP_ENABLE,
 #if (HAL_PA_ENABLE)
   .pa.config_enable = 1, // Set this to be a valid PA config
 #if defined(FEATURE_PA_INPUT_FROM_VBAT)
@@ -260,8 +261,8 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 
 	case gecko_evt_mesh_node_model_config_changed_id:
 	      LOG_INFO("model config changed\r\n");
-	      // try to init lpn 5 seconds after configuration change
-	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),
+	      // try to init lpn 30 seconds after configuration change
+	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
 	                                                 TIMER_ID_NODE_CONFIGURED,
 	                                                 1)->result;
 	      if (result) {
@@ -271,8 +272,8 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 
 	case gecko_evt_mesh_node_config_set_id:
 	      LOG_INFO("model config set\r\n");
-	      // try to init lpn 5 seconds after configuration set
-	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),
+	      // try to init lpn 30 seconds after configuration set
+	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
 	                                                 TIMER_ID_NODE_CONFIGURED,
 	                                                 1)->result;
 	      if (result) {
@@ -310,8 +311,8 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	      LOG_INFO("got new %s key with index %x\r\n",
 	             evt->data.evt_mesh_node_key_added.type == 0 ? "network" : "application",
 	             evt->data.evt_mesh_node_key_added.index);
-	      // try to init lpn 5 seconds after adding key
-	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),
+	      // try to init lpn 30 seconds after adding key
+	      result = gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
 	                                                 TIMER_ID_NODE_CONFIGURED,
 	                                                 1)->result;
 	      break;
@@ -370,7 +371,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		if( IsMeshLPN())
 		{
 			// initialize lpn when there is no active connection
-			gecko_mesh_lpn_init();
+			//gecko_mesh_lpn_init();
 		}
 
 		break;
@@ -435,8 +436,23 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	        		BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_friend_init());
 	        	}
 				break;
-
-	        break;
+	        case TIMER_ID_SENSOR_DATA:
+	        	if( IsMeshFriend() )
+	        	{
+	        		sensor_client_publish_get_request();
+	        	}
+	        	break;
+	        case TIMER_ID_SENSOR_DESCRIPTOR:
+	            if(IsMeshFriend())
+	            {
+	            	sensor_client_publish_get_descriptor_request();
+	            	//gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(4000),
+	                                                //TIMER_ID_SENSOR_DATA,
+	                                                //0);
+	            }
+	              break;
+	        default:
+	              break;
 		}
 		break;
 
@@ -481,6 +497,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 
 	case gecko_evt_mesh_friend_friendship_established_id:
 	  LOG_INFO("evt gecko_evt_mesh_friend_friendship_established, lpn_address=%x\r\n", evt->data.evt_mesh_friend_friendship_established.lpn_address);
+	  lpn_address = evt->data.evt_mesh_friend_friendship_established.lpn_address;
 	  displayPrintf(DISPLAY_ROW_CONNECTION,"Friend");
 	  break;
 
@@ -497,9 +514,14 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		switch (evt->data.evt_system_external_signal.extsignals)
 		{
 			case BUTTON_EVENT_MASK:
-				__disable_irq();
-				my_state_struct.event_bitmask |= BUTTON_EVENT_MASK;
-				__enable_irq();
+				//__disable_irq();
+				//my_state_struct.event_bitmask |= BUTTON_EVENT_MASK;
+				//__enable_irq();
+				LOG_INFO("PB pressed\r\n");
+				sensor_client_publish_get_descriptor_request();
+				gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),
+												  TIMER_ID_SENSOR_DATA,
+												  0);
 				break;
 			case ONE_HZ_EVENT_MASK:
 				__disable_irq();
@@ -514,6 +536,16 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 			case ADC_EVENT_MASK:
 				__disable_irq();
 				my_state_struct.event_bitmask |= ADC_EVENT_MASK;
+				__enable_irq();
+				break;
+			case I2C_EVENT_MASK:
+				__disable_irq();
+				my_state_struct.event_bitmask |= I2C_EVENT_MASK;
+				__enable_irq();
+				break;
+			case DELAY_EVENT_MASK:
+				__disable_irq();
+				my_state_struct.event_bitmask |= DELAY_EVENT_MASK;
 				__enable_irq();
 				break;
 		}

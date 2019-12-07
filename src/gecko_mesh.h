@@ -25,6 +25,8 @@
 #define TIMER_ID_DELAYED_ONOFF		51
 #define TIMER_ID_ONOFF_TRANSITION	53
 #define TIMER_ID_SAVE_STATE			60
+#define TIMER_ID_SENSOR_DATA		65
+#define TIMER_ID_SENSOR_DESCRIPTOR  64
 
 // Name length is 12 bytes
 #define NAME_LENGTH	(12)

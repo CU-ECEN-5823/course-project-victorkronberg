@@ -100,11 +100,16 @@ src/lcd_display.o: ../src/lcd_display.c ../src/lcd_display.h \
  ../src/light_sensor.h ../src/gecko_mesh.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_lib.h \
  ../src/soil_sensor.h ../src/server.h ../src/client.h ../src/scheduler.h \
+ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emdrv\sleep\inc/sleep.h \
  ../src/sensor.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_device_properties.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h \
- ../src/sensor_client.h \
+ ../src/sensor_client.h ../src/i2c.h \
+ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\drivers/i2cspm.h \
+ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h \
+ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h \
+ ../src/Si7021.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/display.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/emstatus.h \
@@ -330,6 +335,8 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 
 ../src/scheduler.h:
 
+C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emdrv\sleep\inc/sleep.h:
+
 ../src/sensor.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor.h:
@@ -339,6 +346,16 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_sensor_model_capi_types.h:
 
 ../src/sensor_client.h:
+
+../src/i2c.h:
+
+C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\drivers/i2cspm.h:
+
+C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h:
+
+C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h:
+
+../src/Si7021.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h:
 

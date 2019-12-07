@@ -22,6 +22,8 @@ int main(void)
 
   displayInit();
 
+  i2c_init();
+
   adc_init();
 
   struct gecko_cmd_packet *evt;

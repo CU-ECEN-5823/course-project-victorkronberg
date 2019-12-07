@@ -218,6 +218,23 @@ void LETIMER0_IRQHandler(void)
 		gecko_external_signal(ONE_HZ_EVENT_MASK);
 	}
 
+	// Check for COMP0 flag - should only be set during delay states
+	if( IsMeshLPN() && ((flags & LETIMER_IF_COMP0) >> _LETIMER_IF_COMP0_SHIFT) == 1 )
+	{
+		if( my_state_struct.current_state == STATE4_I2C_WAIT )
+		{
+			// Set bit for delay
+			//my_state_struct.event_bitmask |= DELAY_EVENT_MASK;
+			gecko_external_signal(DELAY_EVENT_MASK);
+			// Disable COMP0 interrupt
+			LETIMER_IntDisable(LETIMER0,LETIMER_IEN_COMP0);
+		}
+		else
+		{
+			LOG_ERROR("Incorrect interrupt flag set.  COMP0 flagged during %d",my_state_struct.current_state);
+		}
+	}
+
 
 	// Check for timer roll over
 	if(((flags & LETIMER_IF_UF) >> _LETIMER_IF_UF_SHIFT) == 1 )

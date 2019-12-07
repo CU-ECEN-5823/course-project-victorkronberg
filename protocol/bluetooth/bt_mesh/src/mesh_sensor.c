@@ -232,6 +232,7 @@ uint8_t mesh_sensor_data_to_buf(uint16_t property_id, uint8_t *ptr, uint8_t *val
     case TOTAL_LUMINOUS_ENERGY:
     case LUMINOUS_EXPOSURE:
     case PRESENT_DEVICE_INPUT_POWER:
+    case PRESENT_AMBIENT_LIGHT_LEVEL:
     case LIGHT_CONTROL_TIME_FADE:
     case LIGHT_CONTROL_TIME_FADE_ON:
     case LIGHT_CONTROL_TIME_FADE_STANDBY_AUTO:
@@ -490,6 +491,7 @@ mesh_device_property_t mesh_sensor_data_from_buf(uint16_t property_id, const uin
     case TOTAL_LUMINOUS_ENERGY:
     case LUMINOUS_EXPOSURE:
     case PRESENT_DEVICE_INPUT_POWER:
+    case PRESENT_AMBIENT_LIGHT_LEVEL:
     case LIGHT_CONTROL_TIME_FADE:
     case LIGHT_CONTROL_TIME_FADE_ON:
     case LIGHT_CONTROL_TIME_FADE_STANDBY_AUTO:

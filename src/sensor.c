@@ -90,6 +90,7 @@ void handle_sensor_server_get_request(
   struct gecko_msg_mesh_sensor_server_get_request_evt_t *pEvt)
 {
   LOG_INFO("evt:gecko_evt_mesh_sensor_server_get_request_id\r\n");
+  LOG_INFO("Property ID: %04x",pEvt->property_id);
   uint8_t sensor_data[5];
   uint8_t len = 0;
   if ((pEvt->property_id == PRESENT_AMBIENT_LIGHT_LEVEL) || (pEvt->property_id == 0))
@@ -98,13 +99,21 @@ void handle_sensor_server_get_request(
 	  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_LIGHT_LEVEL,
 	                                 &sensor_data[len],
 	                                 (uint8_t*)&ambient_light);
+	  LOG_INFO("property id: %02x value: %d",PRESENT_AMBIENT_LIGHT_LEVEL,ambient_light);
+
+	  displayPrintf(DISPLAY_ROW_LIGHTNESS,"Illum: %d.%02d %%",ambient_light / 50,(ambient_light * 2) % 100);
   }
   if ((pEvt->property_id == PRESENT_AMBIENT_TEMPERATURE) || (pEvt->property_id == 0))
   {
-	  temperature_8_t temperature;// = get_temperature();
+	  temperature_8_t temperature;
+	  uint32_t tempData = si7021_return_last_temp();
+	  // Convert temperature from uint32_t to uint8_t (temperature * 2)
+	  tempData = (((tempData * 2) + 499) / 1000);
+	  temperature = (temperature_8_t)tempData;
 	  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
 								   &sensor_data[len],
 								   (uint8_t*)&temperature);
+	  displayPrintf(DISPLAY_ROW_TEMPVALUE,"Temp: %3d.%1d C",temperature / 2, (temperature * 5) % 10);
   }
   if ((pEvt->property_id == PRESENT_INPUT_VOLTAGE) || (pEvt->property_id == 0))
   {
@@ -112,7 +121,11 @@ void handle_sensor_server_get_request(
 	  len += mesh_sensor_data_to_buf(PRESENT_INPUT_VOLTAGE,
 	                                 &sensor_data[len],
 	                                 (uint8_t*)&soil_voltage);
+	  displayPrintf(DISPLAY_ROW_SOIL,"Mstr: %d.%02d %%",(soil_voltage / 50),(soil_voltage * 2) % 100);
+	  LOG_INFO("property id: %02x value: %d",PRESENT_INPUT_VOLTAGE,soil_voltage);
   }
+
+  LOG_INFO("len: %d  sensor data: %x%x",len,sensor_data[0],sensor_data[1]);
 
   if (len > 0)
   {
@@ -193,7 +206,7 @@ void handle_sensor_server_publish_event(
                                  &sensor_data[len],
                                  (uint8_t*)&ambient_light);
 
-  temperature_8_t temperature;// = get_temperature();
+  temperature_8_t temperature = si7021_return_last_temp();
   len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
                                  &sensor_data[len],
                                  (uint8_t*)&temperature);
@@ -233,7 +246,7 @@ void sensor_server_publish(void)
 
   displayPrintf(DISPLAY_ROW_LIGHTNESS,"Illuminance: %d",(uint32_t)ambient_light);
 
-  temperature_8_t temperature;// = get_temperature();
+  temperature_8_t temperature = si7021_return_last_temp();
   len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
                                  &sensor_data[len],
                                  (uint8_t*)&temperature);

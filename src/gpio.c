@@ -93,10 +93,10 @@ void GPIO_PF6_IRQHandler(uint8_t intno)
 	pb0_state = GPIO_PinInGet(PD0_BUTTON_PORT,PD0_BUTTON_PIN);
 	pb1_state = GPIO_PinInGet(PD1_BUTTON_PORT,PD1_BUTTON_PIN);
 
-	//if(DEVICE_IS_ONOFF_PUBLISHER)
-	//{
-		//gecko_external_signal(BUTTON_EVENT_MASK);
-	//}
+	if(IsMeshFriend())
+	{
+		gecko_external_signal(BUTTON_EVENT_MASK);
+	}
 
 	LOG_INFO("GPIO Pin0 state is %d",pb0_state);
 	LOG_INFO("GPIO Pin1 state is %d",pb1_state);

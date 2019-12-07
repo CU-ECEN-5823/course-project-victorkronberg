@@ -11,6 +11,7 @@
 #define SRC_SCHEDULER_H_
 
 #include "main.h"
+#include "sleep.h"
 
 #define ZERO_DELAY	(0)
 
@@ -36,6 +37,8 @@
 #define BUTTON_EVENT_POS			(7)
 #define ADC_EVENT_MASK				(0x0100)
 #define ADC_EVENT_POS				(8)
+#define DELAY_EVENT_MASK			(0x0200)
+#define DELAY_EVENT_MASK_POS		(9)
 
 typedef enum states  {
 	STATE0_WAIT_FOR_TIMER,
@@ -102,6 +105,34 @@ void scheduler_confirm_passkey(myStateTypeDef *state_struct);
  * @param        state_struct [Struct containing context for the state machine]
  */
 void scheduler_update_button_status(myStateTypeDef *state_struct);
+
+/**
+ * [scheduler_start_i2c_write]
+ * @description: Set deepest sleep state to EM1 and begin I2C write. To be called
+ * 				 			in STATE1_I2C_POWER_UP.
+ */
+void scheduler_start_i2c_write(void);
+
+/**
+ * [scheduler_wait_for_temp_conversion]
+ * @description: Set deepest sleep state to EM3 and set delay timer to wait for conversion.
+ * 							To be called in STATE2_I2C_WRITE.
+ */
+void scheduler_wait_for_temp_conversion(void);
+
+/**
+ * [scheduler_start_i2c_read]
+ * @description: Set deepest sleep to EM1 and start I2C read. To be called in
+ * 							STATE3_I2C_WAIT
+ */
+void scheduler_start_i2c_read(void);
+
+/**
+ * [scheduler_return_temp_then_wait]
+ * @description: Retrieve temperature from I2C buffer, set deepest sleep to EM3,
+ * 							and power down Si7021.  To be called in STATE4_I2C_READ.
+ */
+void scheduler_return_temp_then_wait(void);
 
 /**
  * [client_scheduler description]
