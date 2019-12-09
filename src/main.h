@@ -29,6 +29,7 @@
 #include "sensor_client.h"
 #include "i2c.h"
 #include "Si7021.h"
+#include "persistent_store.h"
 
 volatile uint32_t sample;
 volatile uint32_t millivolts;

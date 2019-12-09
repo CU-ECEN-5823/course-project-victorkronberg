@@ -91,24 +91,24 @@ void GPIO_PF6_IRQHandler(uint8_t intno)
 	GPIO_IntClear(0x5555);
 
 	pb0_state = GPIO_PinInGet(PD0_BUTTON_PORT,PD0_BUTTON_PIN);
-	pb1_state = GPIO_PinInGet(PD1_BUTTON_PORT,PD1_BUTTON_PIN);
+	//pb1_state = GPIO_PinInGet(PD1_BUTTON_PORT,PD1_BUTTON_PIN);
 
-	if(IsMeshFriend())
+	if(IsMeshFriend() && pb0_state == 0)
 	{
 		gecko_external_signal(BUTTON_EVENT_MASK);
 	}
 
-	LOG_INFO("GPIO Pin0 state is %d",pb0_state);
-	LOG_INFO("GPIO Pin1 state is %d",pb1_state);
 
 	// If 0, button is pressed and GPIO pin is grounded
 	if(pb0_state == 0)
 	{
+		LOG_INFO("PB0 pressed");
 		gpioLed0SetOn();
 		button_state = 0x01;
 	}
 	else
 	{
+		LOG_INFO("PB0 Released");
 		gpioLed0SetOff();
 		button_state = 0x00;
 	}
@@ -128,18 +128,22 @@ void GPIO_PF7_IRQHandler(uint8_t intno)
 	// Acknowledge the interrupt and clear odd interrupt flags
 	GPIO_IntClear(0xAAAA);
 
-	pb0_state = GPIO_PinInGet(PD0_BUTTON_PORT,PD0_BUTTON_PIN);
+	//pb0_state = GPIO_PinInGet(PD0_BUTTON_PORT,PD0_BUTTON_PIN);
 	pb1_state = GPIO_PinInGet(PD1_BUTTON_PORT,PD1_BUTTON_PIN);
 
-	LOG_INFO("GPIO Pin0 state is %d",pb0_state);
-	LOG_INFO("GPIO Pin1 state is %d",pb1_state);
+	if(IsMeshFriend() && pb1_state == 0)
+	{
+		gecko_external_signal(PS_READ_EVENT_MASK);
+	}
 
 	if(pb1_state == 0)
 	{
+		LOG_INFO("PB1 pressed");
 		gpioLed1SetOn();
 	}
 	else
 	{
+		LOG_INFO("PB1 released");
 		gpioLed1SetOff();
 	}
 

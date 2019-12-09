@@ -111,7 +111,7 @@ src/gecko_ble_errors.o: ../src/gecko_ble_errors.c \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\drivers/i2cspm.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h \
- ../src/Si7021.h
+ ../src/Si7021.h ../src/persistent_store.h
 
 ../src/gecko_ble_errors.h:
 
@@ -350,3 +350,5 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h:
 
 ../src/Si7021.h:
+
+../src/persistent_store.h:

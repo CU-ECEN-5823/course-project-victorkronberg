@@ -109,7 +109,7 @@ src/lcd_display.o: ../src/lcd_display.c ../src/lcd_display.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\drivers/i2cspm.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h \
- ../src/Si7021.h \
+ ../src/Si7021.h ../src/persistent_store.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/display.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/hardware/kit/common/drivers/emstatus.h \
@@ -356,6 +356,8 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h:
 
 ../src/Si7021.h:
+
+../src/persistent_store.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/graphics.h:
 

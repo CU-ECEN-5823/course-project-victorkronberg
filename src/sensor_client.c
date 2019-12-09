@@ -124,6 +124,7 @@ void handle_sensor_client_status(
   struct gecko_msg_mesh_sensor_client_status_evt_t *pEvt)
 {
   LOG_INFO("evt:gecko_evt_mesh_sensor_client_status_id\r\n");
+  struct sensor_struct sensors;
   uint8_t *sensor_data = pEvt->sensor_data.data;
   uint8_t data_len = pEvt->sensor_data.len;
   uint8_t pos = 0;
@@ -146,6 +147,7 @@ void handle_sensor_client_status(
                 {
                   mesh_device_property_t property = mesh_sensor_data_from_buf(PRESENT_INPUT_VOLTAGE, property_data);
                   present_input_voltage_t voltage = property.voltage;
+                  sensors.soil_moisture = voltage;
                   LOG_INFO("Input Voltage %d",property.voltage);
                   displayPrintf(DISPLAY_ROW_SOIL,"Mstr: %d.%02d %%",(voltage / 50),(voltage * 2) % 100);
                 }
@@ -160,6 +162,7 @@ void handle_sensor_client_status(
 				if (property_len == 1) {
 				  mesh_device_property_t property = mesh_sensor_data_from_buf(PRESENT_AMBIENT_TEMPERATURE, property_data);
 				  temperature_8_t temperature = property.temperature_8;
+				  sensors.temperature = temperature;
 				  displayPrintf(DISPLAY_ROW_TEMPVALUE,"Temp: %3d.%1d C",temperature / 2, (temperature * 5) % 10);
 				}
 				else
@@ -172,6 +175,7 @@ void handle_sensor_client_status(
 				{
 					mesh_device_property_t property = mesh_sensor_data_from_buf(PRESENT_AMBIENT_LIGHT_LEVEL, property_data);
 					illuminance_t illuminance = property.illuminance;
+					sensors.illuminance = illuminance;
 					displayPrintf(DISPLAY_ROW_LIGHTNESS,"Illum: %d.%02d %%",illuminance / 50,(illuminance * 2) % 100);
 				}
 				else
@@ -193,6 +197,10 @@ void handle_sensor_client_status(
       //}
     //}
   }
+  sensors.timestamp = timerGetRunTimeMilliseconds();
+
+  persistent_storage_save(sensors);
+
 }
 
 /*******************************************************************************

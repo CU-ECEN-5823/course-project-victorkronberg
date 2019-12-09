@@ -118,6 +118,7 @@ src/gecko_mesh.o: ../src/gecko_mesh.c \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/src/Si7021.h \
+ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/src/persistent_store.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_lib.h
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/src/gecko_mesh.h:
@@ -357,5 +358,7 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/src/Si7021.h:
+
+C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update/src/persistent_store.h:
 
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\protocol\bluetooth\bt_mesh\inc/mesh_lib.h:

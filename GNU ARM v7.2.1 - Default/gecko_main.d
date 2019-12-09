@@ -112,7 +112,7 @@ gecko_main.o: ../gecko_main.c ../init_mcu.h ../board_features.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\drivers/i2cspm.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\hardware\kit\common\halconfig/i2cspmhalconfig.h \
  C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h \
- ../src/Si7021.h
+ ../src/Si7021.h ../src/persistent_store.h
 
 ../init_mcu.h:
 
@@ -365,3 +365,5 @@ C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_up
 C:\Users\vkronber\SimplicityStudio\v4_workspace\course-project-victorkronberg_update\platform\emlib\inc/em_i2c.h:
 
 ../src/Si7021.h:
+
+../src/persistent_store.h:

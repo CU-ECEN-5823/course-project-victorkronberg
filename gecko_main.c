@@ -250,6 +250,10 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		else
 		{
 			gecko_mesh_set_device_name();
+			if(IsMeshFriend())
+			{
+				persistent_storage_restore();
+			}
 			// Initialize Mesh stack in Node operation mode, wait for initialized event
 			BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_node_init());
 		}
@@ -396,6 +400,11 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		switch (evt->data.evt_hardware_soft_timer.handle)
 		{
 			case TIMER_ID_FACTORY_RESET:
+				// Initialize persistent storage pointers if Friend
+				if(IsMeshFriend())
+				{
+					persistent_storage_init();
+				}
 				// reset the device to finish factory reset
 				gecko_cmd_system_reset(0);
 				break;
@@ -546,6 +555,11 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 			case DELAY_EVENT_MASK:
 				__disable_irq();
 				my_state_struct.event_bitmask |= DELAY_EVENT_MASK;
+				__enable_irq();
+				break;
+			case PS_READ_EVENT_MASK:
+				__disable_irq();
+				my_state_struct.event_bitmask |= PS_READ_EVENT_MASK;
 				__enable_irq();
 				break;
 		}

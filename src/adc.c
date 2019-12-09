@@ -49,10 +49,10 @@ void adc_init()
 	initSingle.acqTime    = adcAcqTime4;  // set acquisition time to meet minimum requirement
 
 	// Select ADC input. See README for corresponding EXP header pin.
-	// PC9 - ADC0 Port 2X Channel 9 (Expansion Header Pin 10)
-	//initSingle.posSel = adcPosSelAPORT2XCH9;
-	// PC9 - ADC0 Port 4X Channel 3 (Expansion Header Pin 9)
-	initSingle.posSel = adcPosSelAPORT4XCH3;
+	// PC9 - ADC0 Port 2X Channel 9 (Expansion Header Pin 10) - Light Sensor
+	initSingle.posSel = ADC0_EXPANSION_PIN_10;
+	// PC9 - ADC0 Port 4X Channel 3 (Expansion Header Pin 9) - Soil Moisture
+	//initSingle.posSel = ADC0_EXPANSION_PIN_9;
 	//init.timebase = ADC_TimebaseCalc(0);
 
 	ADC_Init(ADC0, &init);
@@ -64,6 +64,38 @@ void adc_init()
 	// Enable ADC interrupts
 	NVIC_ClearPendingIRQ(ADC0_IRQn);
 	NVIC_EnableIRQ(ADC0_IRQn);
+}
+
+void adc_set_light_sensor(void)
+{
+	ADC_InitSingle_TypeDef initSingle = ADC_INITSINGLE_DEFAULT;
+
+	initSingle.diff       = false;        // single ended
+	initSingle.reference  = adcRef5V;    // internal 2.5V reference
+	initSingle.resolution = adcRes12Bit;  // 12-bit resolution
+	initSingle.acqTime    = adcAcqTime4;  // set acquisition time to meet minimum requirement
+
+	// Select ADC input. See README for corresponding EXP header pin.
+	// PC9 - ADC0 Port 2X Channel 9 (Expansion Header Pin 10) - Light Sensor
+	initSingle.posSel = ADC0_EXPANSION_PIN_10;
+
+	ADC_InitSingle(ADC0, &initSingle);
+
+}
+
+void adc_set_soil_sensor(void)
+{
+	ADC_InitSingle_TypeDef initSingle = ADC_INITSINGLE_DEFAULT;
+
+	initSingle.diff       = false;        // single ended
+	initSingle.reference  = adcRef5V;    // internal 2.5V reference
+	initSingle.resolution = adcRes12Bit;  // 12-bit resolution
+	initSingle.acqTime    = adcAcqTime4;  // set acquisition time to meet minimum requirement
+
+	// PC9 - ADC0 Port 4X Channel 3 (Expansion Header Pin 9) - Soil Moisture
+	initSingle.posSel = ADC0_EXPANSION_PIN_9;
+
+	ADC_InitSingle(ADC0, &initSingle);
 }
 
 /**************************************************************************//**

@@ -39,6 +39,8 @@
 #define ADC_EVENT_POS				(8)
 #define DELAY_EVENT_MASK			(0x0200)
 #define DELAY_EVENT_MASK_POS		(9)
+#define PS_READ_EVENT_MASK			(0x0400)
+#define PS_READ_EVENT_POS			(10)
 
 typedef enum states  {
 	STATE0_WAIT_FOR_TIMER,

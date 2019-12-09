@@ -51,7 +51,7 @@ void my_scheduler(myStateTypeDef *state_struct)
 				state_struct->next_state = STATE1_MEASURE_LIGHT;
 				__enable_irq();
 
-				ADC_Start(ADC0, adcStartSingle);
+				//ADC_Start(ADC0, adcStartSingle);
 
 				//LOG_INFO("Sense event occurred");
 				scheduler_sensor_event_handler();
@@ -70,6 +70,8 @@ void my_scheduler(myStateTypeDef *state_struct)
 				millivolts = (sample * 5000) / 4096;
 
 				sensor_data.data.lightness = millivolts;
+
+				adc_set_soil_sensor();
 
 				ADC_Start(ADC0, adcStartSingle);
 
@@ -92,6 +94,8 @@ void my_scheduler(myStateTypeDef *state_struct)
 				millivolts = (sample * 5000) / 4096;
 
 				sensor_data.data.soil_moisture = millivolts;
+
+				adc_set_light_sensor();
 
 				// Set deepest sleep state to EM1 and begin i2c write
 				scheduler_start_i2c_write();
@@ -264,6 +268,15 @@ void client_scheduler(myStateTypeDef *state_struct)
 
 		scheduler_one_hz_event_handler();
 
+	}
+
+	if( ((state_struct->event_bitmask & PS_READ_EVENT_MASK) >> PS_READ_EVENT_POS) == 1 )
+	{
+		__disable_irq();
+		// Clear event bitmask
+		state_struct->event_bitmask &= ~PS_READ_EVENT_MASK;
+		__enable_irq();
+		persistent_storage_print_all();
 	}
 
 }
