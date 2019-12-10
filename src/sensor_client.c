@@ -111,8 +111,6 @@ void sensor_client_publish_get_request(void)
                                    IGNORED,
                                    NO_FLAGS,
 								   0) );
-								   //properties[current_property]) );
-	sensor_client_change_property();
 }
 
 /***************************************************************************//**

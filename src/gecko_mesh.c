@@ -134,10 +134,6 @@ void gecko_mesh_init_models(void)
 	{
 		LOG_INFO("LPN init");
 		mesh_lib_init(malloc,free,8);
-		// try to initialize lpn after 30 seconds, if no configuration messages come
-		BTSTACK_CHECK_RESPONSE(gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(30000),
-												 TIMER_ID_NODE_CONFIGURED,
-												 1));
 	}
 	if(IsMeshFriend())
 	{

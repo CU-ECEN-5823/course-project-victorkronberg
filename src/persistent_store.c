@@ -16,6 +16,7 @@ void persistent_storage_init(void)
 	ps_pointers.ps_tail = 0;
 
 	gecko_cmd_flash_ps_save(0x4000, sizeof(struct ps_pointers), (const uint8*)&ps_pointers);
+
 }
 
 void persistent_storage_restore(void)
@@ -33,6 +34,8 @@ void persistent_storage_restore(void)
 	}
 
 	LOG_INFO("Persistent memory set. Head: %d Tail: %d",ps_pointers.ps_head,ps_pointers.ps_tail);
+	LOG_INFO("Size of sensor struct: %d bytes", sizeof(struct sensor_struct));
+	displayPrintf(DISPLAY_ROW_FLEX_DATA,"Data points: %d",ps_buffer_length());
 
 }
 
@@ -51,6 +54,7 @@ void persistent_storage_print_all(void)
 		else
 		{
 			memcpy(&sensors, response->value.data, response->value.len);
+			LOG_INFO("Data point: %d of %d",((index - ps_pointers.ps_tail) + 1),ps_buffer_length());
 			LOG_INFO("time: %d", sensors.timestamp);
 			LOG_INFO("Temperature: %3d.%1d C",sensors.temperature / 2, (sensors.temperature * 5) % 10);
 			LOG_INFO("Illuminance: %d.%02d %%",sensors.illuminance / 50,(sensors.illuminance * 2) % 100);
@@ -65,18 +69,15 @@ void persistent_storage_print_all(void)
 void persistent_storage_save(struct sensor_struct sensors)
 {
 
-	if(ps_buffer_length() <= (NUM_STORAGE_KEYS - 1) )
+	if(ps_buffer_length() > (NUM_STORAGE_KEYS - 1) )
 	{
-		// Save utilizing ring buffer strategy
-		LOG_INFO("Data stored at Head: %d and Tail: %d",ps_pointers.ps_head,ps_pointers.ps_tail);
-		gecko_cmd_flash_ps_save(PS_BASE_KEY + (ps_pointers.ps_head & (NUM_STORAGE_KEYS - 1)), sizeof(struct sensor_struct), (const uint8*)&sensors);
-		ps_pointers.ps_head++;
-	}
-	else
-	{
-		gecko_cmd_flash_ps_erase(PS_BASE_KEY + ps_pointers.ps_tail);
 		ps_pointers.ps_tail++;
 	}
+	// Save utilizing ring buffer strategy
+	LOG_INFO("Data stored at Head: %d and Tail: %d",ps_pointers.ps_head,ps_pointers.ps_tail);
+	gecko_cmd_flash_ps_save(PS_BASE_KEY + (ps_pointers.ps_head & (NUM_STORAGE_KEYS - 1)), sizeof(struct sensor_struct), (const uint8*)&sensors);
+	ps_pointers.ps_head++;
+	displayPrintf(DISPLAY_ROW_FLEX_DATA,"Data points: %d",ps_buffer_length());
 
 }
 

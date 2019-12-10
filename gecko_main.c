@@ -215,7 +215,15 @@ void handle_node_initialized_event(struct gecko_msg_mesh_node_initialized_evt_t 
     my_address = pEvt->address;
 
     gecko_mesh_init_models();
-    //gecko_mesh_init_models();
+
+    if(IsMeshLPN())
+    {
+    	// try to initialize lpn after 5 seconds, if no configuration messages come
+		BTSTACK_CHECK_RESPONSE(gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),
+												 TIMER_ID_NODE_CONFIGURED,
+												 1));
+    }
+
     displayPrintf(DISPLAY_ROW_ACTION,"Provisioned");
   }
   else
@@ -372,12 +380,6 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 			gecko_cmd_system_reset(2);
 		}
 
-		if( IsMeshLPN())
-		{
-			// initialize lpn when there is no active connection
-			//gecko_mesh_lpn_init();
-		}
-
 		break;
 
 	case gecko_evt_gatt_server_user_write_request_id:
@@ -439,11 +441,6 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 					LOG_INFO("try to initialize lpn...\r\n");
 					gecko_mesh_lpn_init();
 				}
-	        	else if (IsMeshFriend())
-	        	{
-	        		LOG_INFO("try to initialize friend...\r\n");
-	        		BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_friend_init());
-	        	}
 				break;
 	        case TIMER_ID_SENSOR_DATA:
 	        	if( IsMeshFriend() )

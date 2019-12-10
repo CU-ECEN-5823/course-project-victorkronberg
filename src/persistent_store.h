@@ -11,7 +11,7 @@
 #include "main.h"
 
 // Number of storage keys MUST be power of 2 for proper utilization of ring buffer
-#define NUM_STORAGE_KEYS	(64)
+#define NUM_STORAGE_KEYS	(16)
 #define PS_BASE_KEY			(0x4001)
 
 struct ps_pointers
