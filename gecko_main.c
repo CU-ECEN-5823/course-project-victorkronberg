@@ -329,16 +329,6 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	                                                 1)->result;
 	      break;
 
-	case gecko_evt_mesh_generic_server_client_request_id:
-		//if(!DEVICE_IS_ONOFF_PUBLISHER)
-		//{
-			LOG_INFO("evt gecko_evt_mesh_generic_server_client_request_id\r\n");
-			// pass the server client request event to mesh lib handler that will invoke
-			// the callback functions registered by application
-			//mesh_lib_generic_server_event_handler(evt);
-		//}
-		break;
-
 	case gecko_evt_mesh_sensor_server_get_request_id:
 	case gecko_evt_mesh_sensor_server_get_column_request_id:
 	case gecko_evt_mesh_sensor_server_get_series_request_id:
@@ -356,19 +346,6 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 	case gecko_evt_mesh_sensor_client_publish_id:
 	  handle_sensor_client_events(evt);
 	  break;
-
-	case gecko_evt_mesh_generic_server_state_changed_id:
-		//if(!DEVICE_IS_ONOFF_PUBLISHER)
-		//{
-			// uncomment following line to get debug prints for each server state changed event
-			//server_state_changed(&(evt->data.evt_mesh_generic_server_state_changed));
-		LOG_INFO("Generic server state change evt");
-
-			// pass the server state changed event to mesh lib handler that will invoke
-			// the callback functions registered by application
-			//mesh_lib_generic_server_event_handler(evt);
-		//}
-		break;
 
 	case gecko_evt_le_connection_closed_id:
 		connection_state = UNCONNECTED;

@@ -24,3 +24,6 @@ Below is an overview of the project that has been implemented so far:
 * LPN/Friend functionality
 * LPN able to operate in low power mode (deep sleep)
 * Persistent memory routine on Friend node
+
+In order to build the project for the Friend node, set DEVICE_IS_SENSOR_SERVER in ble_mesh_device_type.h to 0.
+In order to build the project for the LPN node, set DEVICE_IS_SENSOR_SERVER in ble_mesh_device_type.h to 1.
