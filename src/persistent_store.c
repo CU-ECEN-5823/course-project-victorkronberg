@@ -1,5 +1,6 @@
 /*
  * persistent_store.c
+ * Functions for handling persistent storage (flash) of data
  *
  *  Created on: Dec 7, 2019
  *      Author: vkronber
@@ -85,4 +86,3 @@ uint32_t ps_buffer_length(void)
 {
 	return ps_pointers.ps_head - ps_pointers.ps_tail;
 }
-

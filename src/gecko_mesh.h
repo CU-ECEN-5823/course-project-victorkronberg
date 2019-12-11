@@ -3,7 +3,7 @@
  * Interface with Silicon Labs mesh API
  *
  *  Created on: Nov 4, 2019
- *      Author: vkronber
+ *      Author: Victor Kronberg
  */
 
 #ifndef SRC_GECKO_MESH_H_

@@ -410,24 +410,6 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 				// reset the device to finish factory reset
 				gecko_cmd_system_reset(0);
 				break;
-			case TIMER_ID_RETRANS:
-				//if(DEVICE_IS_ONOFF_PUBLISHER)
-				//{
-					LOG_INFO("Retrans timer event");
-					//gecko_mesh_send_onoff_request(1);   // param 1 indicates that this is a retransmission
-					// stop retransmission timer if it was the last attempt
-					//if (request_count == 0) {
-						//gecko_cmd_hardware_set_soft_timer(0, TIMER_ID_RETRANS, 0);
-					//}
-				//}
-				break;
-			case TIMER_ID_SAVE_STATE:
-				//if(!DEVICE_IS_ONOFF_PUBLISHER)
-				//{
-					LOG_INFO("State save event");
-					server_on_off_state_store();
-				//}
-				break;
 	        case TIMER_ID_FRIEND_FIND:
 	        	if(IsMeshLPN())
 	        	{
@@ -520,9 +502,7 @@ void handle_gecko_event(uint32_t evt_id, struct gecko_cmd_packet *evt)
 		switch (evt->data.evt_system_external_signal.extsignals)
 		{
 			case BUTTON_EVENT_MASK:
-				//__disable_irq();
-				//my_state_struct.event_bitmask |= BUTTON_EVENT_MASK;
-				//__enable_irq();
+				// Event only triggered on friend nodes
 				LOG_INFO("PB pressed\r\n");
 				sensor_client_publish_get_descriptor_request();
 				gecko_cmd_hardware_set_soft_timer(TIMER_MS_2_TIMERTICK(5000),

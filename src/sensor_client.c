@@ -14,6 +14,10 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+ /*
+  * Modified by Victor Kronberg to handle different sensor types and printing
+  * of the data to LCD.
+  */
 
 #include "sensor_client.h"
 
@@ -65,10 +69,7 @@ void sensor_client_change_property(void)
  ******************************************************************************/
 void sensor_client_publish_get_descriptor_request(void)
 {
-  registered_devices = 0;
-  for (uint8_t sensor = 0; sensor < DISPLAYED_SENSORS; sensor++) {
-    //DI_Print("", DI_ROW_SENSOR_DATA + sensor);
-  }
+
   LOG_INFO("get descriptor request");
   BTSTACK_CHECK_RESPONSE(gecko_cmd_mesh_sensor_client_get_descriptor(SENSOR_ELEMENT,
                                               PUBLISH_ADDRESS,

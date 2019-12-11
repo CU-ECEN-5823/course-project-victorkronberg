@@ -14,6 +14,10 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+ /*
+  * Modified by Victor Kronberg to handle different sensor types and printing
+  * of the data to LCD.
+  */
 
 #ifndef SENSOR_CLIENT_H
 #define SENSOR_CLIENT_H

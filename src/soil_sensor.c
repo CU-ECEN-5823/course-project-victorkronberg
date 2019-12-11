@@ -1,5 +1,6 @@
 /*
  * soil_sensor.c
+ * Functions for interfacing with soil moisture sensor
  *
  *  Created on: Nov 29, 2019
  *      Author: vkronber

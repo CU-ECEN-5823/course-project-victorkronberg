@@ -1,5 +1,6 @@
 /*
- * analog_sensors.c
+ * light_sensor.c
+ * Functions for interfacing with ambient light sensor
  *
  *  Created on: Nov 11, 2019
  *      Author: vkronber

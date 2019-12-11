@@ -4,7 +4,7 @@
  * both client and server devices.
  *
  *  Created on: Nov 4, 2019
- *      Author: vkronber
+ *      Author: Victor Kronberg
  */
 
 #include <src/gecko_mesh.h>
@@ -147,15 +147,6 @@ void gecko_mesh_init_models(void)
 		{
 			LOG_INFO("Friend init failed 0x%x\r\n", res);
 		}
-
-		//server_state_init();
-
-		//mesh_lib_generic_server_register_handler(MESH_GENERIC_PROPERTY_CLIENT_MODEL_ID,
-		//										elem_index,
-		//										server_property_request,
-		//										server_property_change);
-
-		//server_on_off_update_and_publish(elem_index,0);
 	}
 	displayPrintf(DISPLAY_ROW_ACTION,"Provisioned");
 }

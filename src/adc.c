@@ -12,36 +12,26 @@
 void adc_init()
 {
 
-	  // Declare init structs
-	  ADC_Init_TypeDef init = ADC_INIT_DEFAULT;
-	  ADC_InitSingle_TypeDef initSingle = ADC_INITSINGLE_DEFAULT;
-
-	  // Enable ADC clock
-	  //CMU_ClockEnable(cmuClock_HFPER, true);
-	  CMU_ClockEnable(cmuClock_ADC0, true);
-
-	  // Select AUXHFRCO for ADC ASYNC mode so it can run in EM2
-	  CMU->ADCCTRL = CMU_ADCCTRL_ADC0CLKSEL_AUXHFRCO;
-	  // Make this change to ensure the AUXHFRCO is selected
-	  ADC0->CTRL = ADC_CTRL_ADCCLKMODE_ASYNC;
-
-	  // Set AUXHFRCO frequency and use it to setup the ADC
-	  CMU_AUXHFRCOFreqSet(cmuAUXHFRCOFreq_1M0Hz);
-	  init.timebase = ADC_TimebaseCalc(CMU_AUXHFRCOBandGet());
-	  init.prescale = ADC_PrescaleCalc(adcFreq, CMU_AUXHFRCOBandGet());
-
-	  // Let the ADC enable its clock in EM2 when necessary
-	  init.em2ClockConfig = adcEm2ClockOnDemand;
-/*
-	// Enable ADC0 clock
-	CMU_ClockEnable(cmuClock_ADC0, true);
-*/
 	// Declare init structs
-	//ADC_Init_TypeDef init = ADC_INIT_DEFAULT;
-	//ADC_InitSingle_TypeDef initSingle = ADC_INITSINGLE_DEFAULT;
+	ADC_Init_TypeDef init = ADC_INIT_DEFAULT;
+	ADC_InitSingle_TypeDef initSingle = ADC_INITSINGLE_DEFAULT;
 
-	// Modify init structs and initialize
-	//init.prescale = ADC_PrescaleCalc(adcFreq, 0); // Init to max ADC clock for Series 1
+	// Enable ADC clock
+	//CMU_ClockEnable(cmuClock_HFPER, true);
+	CMU_ClockEnable(cmuClock_ADC0, true);
+
+	// Select AUXHFRCO for ADC ASYNC mode so it can run in EM2
+	ADC0->CTRL = ADC_CTRL_ADCCLKMODE_ASYNC;
+	// Make this change to ensure the AUXHFRCO is selected
+	CMU->ADCCTRL = CMU_ADCCTRL_ADC0CLKSEL_AUXHFRCO;
+
+	// Set AUXHFRCO frequency and use it to setup the ADC
+	CMU_AUXHFRCOFreqSet(cmuAUXHFRCOFreq_1M0Hz);
+	init.timebase = ADC_TimebaseCalc(CMU_AUXHFRCOBandGet());
+	init.prescale = ADC_PrescaleCalc(adcFreq, CMU_AUXHFRCOBandGet());
+
+	// Let the ADC enable its clock in EM2 when necessary
+	init.em2ClockConfig = adcEm2ClockOnDemand;
 
 	initSingle.diff       = false;        // single ended
 	initSingle.reference  = adcRef5V;    // internal 2.5V reference
@@ -51,9 +41,6 @@ void adc_init()
 	// Select ADC input. See README for corresponding EXP header pin.
 	// PC9 - ADC0 Port 2X Channel 9 (Expansion Header Pin 10) - Light Sensor
 	initSingle.posSel = ADC0_EXPANSION_PIN_10;
-	// PC9 - ADC0 Port 4X Channel 3 (Expansion Header Pin 9) - Soil Moisture
-	//initSingle.posSel = ADC0_EXPANSION_PIN_9;
-	//init.timebase = ADC_TimebaseCalc(0);
 
 	ADC_Init(ADC0, &init);
 	ADC_InitSingle(ADC0, &initSingle);
@@ -103,30 +90,12 @@ void adc_set_soil_sensor(void)
  *****************************************************************************/
 void ADC0_IRQHandler(void)
 {
-	//
-	//
-	//
-	//
-	//while(!(ADC0->STATUS & _ADC_STATUS_SINGLEDV_MASK));
-	// Do we need to check to ensure Conversion is complete?
-	//
-	//
-	//
-	//
 
 	__disable_irq();
 	// Get ADC result
 	sample = ADC_DataSingleGet(ADC0);
 
-	//LOG_INFO("Raw data: %d",sample);
-
-
-
-	//if(my_state_struct.current_state == STATE1_MEASURE_LIGHT)
-	//{
-		// Set Gecko event to read next
-		gecko_external_signal(ADC_EVENT_MASK);
-	//}
+	gecko_external_signal(ADC_EVENT_MASK);
 
 	__enable_irq();
 

@@ -1,5 +1,7 @@
 /*
  * client.c
+ * Functions for handling publishing of state of generic property client.  Based on
+ * Silicon Labs soc-light-switch example.
  *
  *  Created on: Nov 23, 2019
  *      Author: vkronber

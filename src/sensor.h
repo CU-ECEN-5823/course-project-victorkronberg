@@ -14,6 +14,10 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+ /*
+  * Modified by Victor Kronberg to handle different sensor types and printing
+  * of the data to LCD.
+  */
 
 #ifndef SENSOR_H
 #define SENSOR_H
@@ -70,6 +74,17 @@ void handle_sensor_server_events(struct gecko_cmd_packet *pEvt);
 void handle_sensor_server_publish_event(struct gecko_msg_mesh_sensor_server_publish_evt_t *pEvt);
 
 void sensor_server_publish(void);
+
+/***************************************************************************//**
+ * Handling of sensor server get request event.
+ * It sending sensor status message with data for all of supported Properties ID,
+ * if there is no Property ID field in request. If request contains Property ID
+ * that is supported, functions reply with the sensor status message with data
+ * for this Property ID, in other case the message contains no data.
+ *
+ * @param[in] pEvt  Pointer to sensor server get request event.
+ ******************************************************************************/
+void handle_sensor_server_get_request(struct gecko_msg_mesh_sensor_server_get_request_evt_t *pEvt);
 
 /** @} (end addtogroup Sensor) */
 

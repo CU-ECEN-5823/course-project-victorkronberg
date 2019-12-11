@@ -1,3 +1,11 @@
+/**
+ * main.c
+ * Main function
+ *
+ *    Created on: Nov 11, 2019
+ *        Author: Victor Kronberg
+ */
+
 #include "main.h"
 
 extern void gecko_main_init();

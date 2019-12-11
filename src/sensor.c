@@ -14,6 +14,10 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
+ /*
+  * Modified by Victor Kronberg to handle different sensor types and printing
+  * of the data to LCD.
+  */
 
 #include "sensor.h"
 
@@ -110,17 +114,21 @@ void handle_sensor_server_get_request(
 	  // Convert temperature from uint32_t to uint8_t (temperature * 2)
 	  tempData = (((tempData * 2) + 499) / 1000);
 	  temperature = (temperature_8_t)tempData;
+
 	  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
 								   &sensor_data[len],
 								   (uint8_t*)&temperature);
+
 	  displayPrintf(DISPLAY_ROW_TEMPVALUE,"Temp: %3d.%1d C",temperature / 2, (temperature * 5) % 10);
   }
   if ((pEvt->property_id == PRESENT_INPUT_VOLTAGE) || (pEvt->property_id == 0))
   {
 	  present_input_voltage_t soil_voltage = soil_sensor_get_voltage();
+
 	  len += mesh_sensor_data_to_buf(PRESENT_INPUT_VOLTAGE,
 	                                 &sensor_data[len],
 	                                 (uint8_t*)&soil_voltage);
+
 	  displayPrintf(DISPLAY_ROW_SOIL,"Mstr: %d.%02d %%",(soil_voltage / 50),(soil_voltage * 2) % 100);
 	  LOG_INFO("property id: %02x value: %d",PRESENT_INPUT_VOLTAGE,soil_voltage);
   }
@@ -220,50 +228,6 @@ void handle_sensor_server_publish_event(
   if (len > 0) {
     gecko_cmd_mesh_sensor_server_send_status(SENSOR_ELEMENT,
     										 PUBLISH_ADDRESS,
-                                             IGNORED,
-                                             NO_FLAGS,
-                                             len, sensor_data);
-  }
-}
-
-/***************************************************************************//**
- * Handling of sensor server publish event.
- * It is used to signal the elapse of the publish period, when the server app
- * shall publish the sensor states
- *
- * @param[in] pEvt  Pointer to sensor server publish request event
- ******************************************************************************/
-void sensor_server_publish(void)
-{
-  LOG_INFO("evt:gecko_evt_mesh_sensor_server_publish_id\r\n");
-  uint8_t sensor_data[32];
-  uint8_t len = 0;
-
-  illuminance_t ambient_light = light_sensor_get_illuminance();
-  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_LIGHT_LEVEL,
-                                 &sensor_data[len],
-                                 (uint8_t*)&ambient_light);
-
-  displayPrintf(DISPLAY_ROW_LIGHTNESS,"Illuminance: %d",(uint32_t)ambient_light);
-
-  temperature_8_t temperature = si7021_return_last_temp();
-  len += mesh_sensor_data_to_buf(PRESENT_AMBIENT_TEMPERATURE,
-                                 &sensor_data[len],
-                                 (uint8_t*)&temperature);
-
-  displayPrintf(DISPLAY_ROW_TEMPVALUE,"Temp: %d C",temperature);
-
-  present_input_voltage_t soil_voltage = soil_sensor_get_voltage();
-  len += mesh_sensor_data_to_buf(PRESENT_INPUT_VOLTAGE,
-                                 &sensor_data[len],
-                                 (uint8_t*)&soil_voltage);
-
-  displayPrintf(DISPLAY_ROW_SOIL,"Soil Moisture: %d",(uint16_t)soil_voltage);
-
-
-  if (len > 0) {
-    gecko_cmd_mesh_sensor_server_send_status(SENSOR_ELEMENT,
-                                             PUBLISH_ADDRESS,
                                              IGNORED,
                                              NO_FLAGS,
                                              len, sensor_data);

@@ -1,5 +1,6 @@
 /*
- * analog_sensors.h
+ * light_sensor.h
+ * Header file for light sensor interface functions
  *
  *  Created on: Nov 11, 2019
  *      Author: vkronber

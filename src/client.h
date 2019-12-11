@@ -1,8 +1,9 @@
 /*
  * client.h
- *
+ * Header file for client functions
+ * 
  *  Created on: Nov 23, 2019
- *      Author: vkronber
+ *      Author: Victor Kronberg
  */
 
 #ifndef SRC_CLIENT_H_
