@@ -190,11 +190,7 @@ void handle_sensor_client_status(
           }
 
         }
-      	  // else {
-         // pos = data_len;
-        //}
-      //}
-    //}
+
   }
   sensors.timestamp = timerGetRunTimeMilliseconds();
 
